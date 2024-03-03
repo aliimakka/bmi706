@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import plotly as plt
+import plotly.graph_objects as plt
 from vega_datasets import data
 
 
