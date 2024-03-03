@@ -161,35 +161,7 @@ if selected_theme == "Country":
 
         st.altair_chart(line_chart, use_container_width=True)
 
-        #pie_chart for funding source
-        st.subheader(f'Total trials over years by top 10 funding source')
-        pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
-        funding=pharma2_filtered_by_phase.groupby(['source']).size().reset_index(name='count')
-        funding_sorted = funding.sort_values(by='count', ascending=False)
-        top_10_funding = funding_sorted.head(10)
-        pie_chart = alt.Chart(top_10_funding).mark_arc().encode(
-            theta=alt.Theta(field="count", type="quantitative"),
-            color=alt.Color(field="source", type="nominal"),
-            tooltip=['source', 'count']
-        ).add_selection(
-            pharma_selection
-        )
 
-        company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
-        
-        # Create the line chart with filtered data based on the selection
-        line_chart = alt.Chart(company_summary).mark_line(point=True).encode(
-            x=alt.X('year:O'),
-            y='count:Q',
-            color='source:N',
-            tooltip=['source', 'year', 'count']
-        ).transform_filter(
-            pharma_selection
-        ).interactive()
-
-        # Display the combined chart
-        combined_chart = pie_chart | line_chart
-        st.altair_chart(combined_chart, use_container_width=True)
  
 elif selected_theme == "Funding":
     # Display charts related to funding theme
@@ -197,5 +169,33 @@ elif selected_theme == "Funding":
     
     # Add your funding-related charts here
     st.write("Charts related to Funding theme")
+        #pie_chart for funding source
+    st.subheader(f'Total trials over years by top 10 funding source')
+    pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
+    funding=pharma2_filtered_by_phase.groupby(['source']).size().reset_index(name='count')
+    funding_sorted = funding.sort_values(by='count', ascending=False)
+    top_10_funding = funding_sorted.head(10)
+    pie_chart = alt.Chart(top_10_funding).mark_arc().encode(
+        theta=alt.Theta(field="count", type="quantitative"),
+        color=alt.Color(field="source", type="nominal"),
+        tooltip=['source', 'count']
+    ).add_selection(
+        pharma_selection
+    )
 
+    company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
+    
+    # Create the line chart with filtered data based on the selection
+    line_chart = alt.Chart(company_summary).mark_line(point=True).encode(
+        x=alt.X('year:O'),
+        y='count:Q',
+        color='source:N',
+        tooltip=['source', 'year', 'count']
+    ).transform_filter(
+        pharma_selection
+    ).interactive()
+
+    # Display the combined chart
+    combined_chart = pie_chart | line_chart
+    st.altair_chart(combined_chart, use_container_width=True)
     # Add additional charts or data related to funding theme here
