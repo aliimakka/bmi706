@@ -2,4 +2,4 @@ streamlit
 pandas
 altair
 vega_datasets
-plotly.graph_objects
+plotly==5.15.0
