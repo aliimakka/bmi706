@@ -201,7 +201,6 @@ elif selected_theme == "Funding":
 
     # Aggregate the data by 'Age Group' and 'indication_gen'
     aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
-    st.plotly_chart
 
 
     # Plotting
