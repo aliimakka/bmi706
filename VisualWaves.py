@@ -19,7 +19,7 @@ merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_o
 
 st.set_page_config(layout="wide")
 # Streamlit app layout
-
+st.title('Clinical Trials Explorer')
 
 # Selector for choosing between different themes
 selected_theme = st.sidebar.selectbox("Select Theme", ["Country", "Funding", "Demographics"])
@@ -32,13 +32,11 @@ selected_phases = st.sidebar.multiselect('Select Phase(s)', options=merged_df['p
 df_filtered_by_phase = merged_df[(merged_df['year'].between(selected_year[0], selected_year[1])) & (merged_df['phase'].isin(selected_phases))]
 pharma2_filtered_by_phase= pharma2[(pharma2['year'].between(selected_year[0], selected_year[1])) & (pharma2['phase'].isin(selected_phases))]
 
-left_column, right_column = st.columns([5, 10])
-
 if selected_theme == "Country":
-    st.title('Clinical Trials Dashboard')
+    left_column, right_column = st.columns([5, 10])
     with left_column:
     # Country Ranking List
-        st.subheader('Country Ranking List')
+        st.subheader('Number of trials by country')
 
         country_rank = df_filtered_by_phase.groupby('Study population')['totaltrials'].sum().reset_index().sort_values('totaltrials', ascending=False)
         for _, row in country_rank.iterrows():
