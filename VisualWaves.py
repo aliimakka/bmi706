@@ -48,7 +48,7 @@ if selected_theme == "Country":
         #        }
         #    </style>
         #"""
-        st.markdown(unsafe_allow_html=True)
+        #st.markdown( unsafe_allow_html=True)
         country_rank = df_filtered_by_phase.groupby('Study population')['totaltrials'].sum().reset_index().sort_values('totaltrials', ascending=False)
         for _, row in country_rank.iterrows():
             total_trials = int(row['totaltrials'])
