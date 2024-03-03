@@ -260,7 +260,7 @@ elif selected_theme == "Demographics":
 
      base = alt.Chart(df_dem
                      ).transform_aggregate(
-         total_pts = 'sum(participants_race)'
+         total_pts = 'sum(participants_race)',
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
          participants = 'sum(participants_race)',
