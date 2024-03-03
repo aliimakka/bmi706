@@ -39,14 +39,16 @@ if selected_theme == "Country":
     with left_column:
     # Country Ranking List
         st.subheader('Country Ranking List')
-        custom_css = """
-            <style>
-                .custom-text {
-                    font-weight: bold;
-                }
-            </style>
-        """
-        st.markdown(custom_css, unsafe_allow_html=True)
+        #custom_css = """
+        #    <style>
+        #        .custom-text {
+        #            font-family: "Times New Roman", Times, serif;
+        #            font-weight: bold;
+        #            color: black;
+        #        }
+        #    </style>
+        #"""
+        st.markdown( unsafe_allow_html=True)
         country_rank = df_filtered_by_phase.groupby('Study population')['totaltrials'].sum().reset_index().sort_values('totaltrials', ascending=False)
         for _, row in country_rank.iterrows():
             total_trials = int(row['totaltrials'])
