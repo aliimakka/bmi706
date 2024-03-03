@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 from vega_datasets import data
+import plotly.graph_objects as go
 
 
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
@@ -9,6 +10,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/countr
 df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
 pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
 pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
+
 
 # Merge datasets
 merged_df = pd.merge(df, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
@@ -188,11 +190,70 @@ elif selected_theme == "Funding":
     combined_chart = pie_chart | line_chart
     st.altair_chart(combined_chart, use_container_width=True)
     # Add additional charts or data related to funding theme here
+    st.title('Seizure Type Comparison Across Age Groups')
+
+    # Load the dataset from the specified path
+    data = pd.read_csv('/Users/mattliebers/Downloads/bmi706/minus_OLE_with_generalized_indications_age_groups.csv')
+
+    # Filter for the specified seizure types
+    seizure_types_of_interest = ['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
+    filtered_data = data[data['indication_gen'].isin(seizure_types_of_interest)]
+
+    # Aggregate the data by 'Age Group' and 'indication_gen'
+    aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
+
+    # Plotting
+    fig, ax = plt.subplots()
+    aggregated_data.plot(kind='bar', figsize=(10, 7), ax=ax)
+    plt.title('Comparison of Seizure Types Across Age Groups')
+    plt.xlabel('Age Group')
+    plt.ylabel('Count')
+    plt.xticks(rotation=45)
+    plt.legend(title='Seizure Type')
+    plt.tight_layout()
+
+    # Display the plot in Streamlit
+    st.pyplot(fig)
+
 
 
 elif selected_theme == "Demographics":
      st.subheader('Demographics')
 
+
+    # aggregated_data = df_filtered_by_phase.groupby(['Year', 'Group', 'Category']).sum().reset_index()
+
+    # num_years= sample_df['Year'].nunique()
+
+    # if num_years > 10:
+    #     year_bins = np.linspace(sample_df['Year'].min(), sample_df['Year'].max(), num=11)
+    #     sample_df['Year_Range'] = pd.cut(sample_df['Year'], bins=year_bins, include_lowest=True)
+    #     sample_df['Year_Range'] = sample_df['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
+    # else:
+    #     sample_df['Year_Range'] = sample_df['Year'].astype(str)
+
+    # sample_df['NormalizedValue'] = (sample_df.groupby(['Year_Range', 'Group'])['Value'].transform(lambda x: (x / x.sum())*100))
+
+    # base = alt.Chart(sample_df
+    #                 ).transform_aggregate(
+    #     groupby=['Group', 'Year_Range', 'Category'],
+    #     total='sum(NormalizedValue)',
+    # ).encode(
+    #     theta=alt.Theta("total:Q", stack=True),
+    #     color=alt.Color("Category:N", legend=None),
+    #     tooltip=['Group', 'Year_Range','Category', 'Value'],
+    # )
+
+    # pie = base.mark_arc(outerRadius=80)
+
+# Define text labels
+
+#text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
+
+
+plot2 = (pie)
+
+plot2
 
 
 
