@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 from vega_datasets import data
-import plotly.graph_objects as go
+import plotly as plt
 
 
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
@@ -201,6 +201,8 @@ elif selected_theme == "Funding":
 
     # Aggregate the data by 'Age Group' and 'indication_gen'
     aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
+    st.plotly_chart
+
 
     # Plotting
     fig, ax = plt.subplots()
