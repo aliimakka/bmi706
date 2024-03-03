@@ -2,21 +2,30 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 from vega_datasets import data
+import matplotlib.pyplot as plt
 
 
 
-country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
-df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
-df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
-pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
-pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
+@st.cache
+def load_data():
+    country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
+    df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
+    df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
+    pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
+    pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
 
 
-# Merge datasets
-merged_df = pd.merge(df, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
-merged_df = merged_df.dropna()
-merged_df['year'] = merged_df['year'].astype(int)
-merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
+    merged_df = pd.merge(df, country_df[['ID', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
+    merged_df = merged_df.dropna()
+    merged_df['year'] = merged_df['year'].astype(int)
+    merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
+
+    race_df_ol=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_ol.csv')
+    race_df_rct=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_rct.csv')
+    combined_race_df = pd.concat([race_df_ol, race_df_rct], axis=0)
+   
+
+df = load_data()
 
 
 st.set_page_config(layout="wide")
@@ -33,6 +42,9 @@ selected_phases = st.sidebar.multiselect('Select Phase(s)', options=merged_df['p
 # Filter data based on selected year and phase
 df_filtered_by_phase = merged_df[(merged_df['year'].between(selected_year[0], selected_year[1])) & (merged_df['phase'].isin(selected_phases))]
 pharma2_filtered_by_phase= pharma2[(pharma2['year'].between(selected_year[0], selected_year[1])) & (pharma2['phase'].isin(selected_phases))]
+
+
+
 
 if selected_theme == "Country":
     left_column, right_column = st.columns([5, 10])
@@ -222,29 +234,43 @@ elif selected_theme == "Funding":
 elif selected_theme == "Demographics":
      st.subheader('Demographics')
 
+     df_race = pd.merge(df_filtered_by_phase["ID", "year", 'source', 'phase'], combined_race_df, on='ID', how='left').melt( 
+     id_vars=["ID", "year", 'phase','source',],
+     var_name="Race",
+     value_name="participants_race",)
+ 
+     df_gender = df_filtered_by_phase["ID", "year", 'source', 'phase', "Male", "Female"].melt( 
+     id_vars=["ID", "year", 'phase','source',],
+     var_name="Gender",
+     value_name="participants_gender",)
 
-    # aggregated_data = df_filtered_by_phase.groupby(['Year', 'Group', 'Category']).sum().reset_index()
+     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left')
 
-    # num_years= sample_df['Year'].nunique()
 
-    # if num_years > 10:
-    #     year_bins = np.linspace(sample_df['Year'].min(), sample_df['Year'].max(), num=11)
-    #     sample_df['Year_Range'] = pd.cut(sample_df['Year'], bins=year_bins, include_lowest=True)
-    #     sample_df['Year_Range'] = sample_df['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
-    # else:
-    #     sample_df['Year_Range'] = sample_df['Year'].astype(str)
+     num_years= df_race['year'].nunique()
 
-    # sample_df['NormalizedValue'] = (sample_df.groupby(['Year_Range', 'Group'])['Value'].transform(lambda x: (x / x.sum())*100))
+     if num_years > 10:
+         year_bins = np.linspace(df_dem['year'].min(), df_dem['year'].max(), num=11)
+         df_dem['Year_Range'] = pd.cut(df_dem['year'], bins=year_bins, include_lowest=True)
+         df_dem['Year_Range'] = df_dem['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
+     else:
+         df_dem['Year_Range'] = df_dem['year'].astype(str)
 
-    # base = alt.Chart(sample_df
-    #                 ).transform_aggregate(
-    #     groupby=['Group', 'Year_Range', 'Category'],
-    #     total='sum(NormalizedValue)',
-    # ).encode(
-    #     theta=alt.Theta("total:Q", stack=True),
-    #     color=alt.Color("Category:N", legend=None),
-    #     tooltip=['Group', 'Year_Range','Category', 'Value'],
-    # )
+     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race'])['participants_race'].transform(lambda x: (x / x.sum())*100))
+     df_dem['Race_prop'] = 
+
+     base = alt.Chart(df_dem
+                     ).transform_aggregate(
+         total_pts = 'sum(participants_race)'
+         groupby=['source', 'Year_Range', 'Race'],
+         total='sum(NormalizedValueRace)',
+         participants = 'sum(participants_race)',
+         percentage = (('sum(participants_race)' / 'total_pts') *100)
+     ).encode(
+         theta=alt.Theta("total:Q", stack=True),
+         color=alt.Color("Race:N", legend=None),
+         tooltip=['source', 'Year_Range','Race', 'participants', 'percentage'],
+     )
 
     # pie = base.mark_arc(outerRadius=80)
 
