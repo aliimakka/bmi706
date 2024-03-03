@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import plotly as plt
 from vega_datasets import data
 
 
@@ -217,6 +216,7 @@ elif selected_theme == "Funding":
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
+    
 
 
 
