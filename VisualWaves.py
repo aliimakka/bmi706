@@ -5,10 +5,10 @@ from vega_datasets import data
 
 # Load the datasets
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
-df = pd.read_csv('https://raw.githubusercontent.com/wyeekong/bmi706brainstorm/main/country.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/aliimakk/bmi706/main/country.csv')
 df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
-pharma = pd.read_csv('https://raw.githubusercontent.com/wyeekong/bmi706brainstorm/main/pharma_country.csv', encoding='latin1')
-pharma2=pd.read_csv('https://raw.githubusercontent.com/wyeekong/bmi706brainstorm/main/minus%20OLE%20(deleted%204).csv')
+pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakk/bmi706/main/pharma_country.csv', encoding='latin1')
+pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakk/bmi706/main/minus%20OLE%20(deleted%204).csv')
 
 # Merge datasets
 merged_df = pd.merge(df, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
