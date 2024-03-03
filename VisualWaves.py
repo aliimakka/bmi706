@@ -4,12 +4,11 @@ import altair as alt
 from vega_datasets import data
 
 
-# Load the datasets
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
 df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
 df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
 pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
-pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/file.csv')
+pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
 
 # Merge datasets
 merged_df = pd.merge(df, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
@@ -23,7 +22,7 @@ st.set_page_config(layout="wide")
 st.title('Clinical Trials Dashboard')
 
 # Selector for choosing between different themes
-selected_theme = st.sidebar.selectbox("Select Theme", ["Country", "Funding"])
+selected_theme = st.sidebar.selectbox("Select Theme", ["Country", "Funding", "Demographics"])
 
 # Common selectors for year and phase
 selected_year = st.sidebar.slider('Select Year', min_value=min(merged_df['year']), max_value=max(merged_df['year']), value=(min(merged_df['year']), max(merged_df['year'])))
@@ -39,16 +38,7 @@ if selected_theme == "Country":
     with left_column:
     # Country Ranking List
         st.subheader('Country Ranking List')
-        #custom_css = """
-        #    <style>
-        #        .custom-text {
-        #            font-family: "Times New Roman", Times, serif;
-        #            font-weight: bold;
-        #            color: black;
-        #        }
-        #    </style>
-        #"""
-        #st.markdown( unsafe_allow_html=True)
+
         country_rank = df_filtered_by_phase.groupby('Study population')['totaltrials'].sum().reset_index().sort_values('totaltrials', ascending=False)
         for _, row in country_rank.iterrows():
             total_trials = int(row['totaltrials'])
@@ -165,12 +155,12 @@ if selected_theme == "Country":
  
 elif selected_theme == "Funding":
     # Display charts related to funding theme
-    st.subheader('Funding Theme')
+    st.subheader('Funding')
     
     # Add your funding-related charts here
     st.write("Charts related to Funding theme")
         #pie_chart for funding source
-    st.subheader(f'Total trials over years by top 10 funding source')
+    st.subheader(f'Total trials over years by top 10 funding sources')
     pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
     funding=pharma2_filtered_by_phase.groupby(['source']).size().reset_index(name='count')
     funding_sorted = funding.sort_values(by='count', ascending=False)
@@ -199,3 +189,10 @@ elif selected_theme == "Funding":
     combined_chart = pie_chart | line_chart
     st.altair_chart(combined_chart, use_container_width=True)
     # Add additional charts or data related to funding theme here
+
+
+elif selected_theme == "Funding":
+     st.subheader('Demographics')
+    
+    # Add your funding-related charts here
+     st.write("Charts related to Funding theme")
