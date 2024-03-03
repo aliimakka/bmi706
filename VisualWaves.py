@@ -4,8 +4,6 @@ import altair as alt
 from vega_datasets import data
 import matplotlib.pyplot as plt
 
-
-
 @st.cache
 def load_data():
     country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
