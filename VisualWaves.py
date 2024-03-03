@@ -216,7 +216,7 @@ elif selected_theme == "Funding":
     plt.tight_layout()
 
     # Display the plot in Streamlit
-    st.pyplot(fig)
+    st.plotly_chart(fig)
 
 
 
