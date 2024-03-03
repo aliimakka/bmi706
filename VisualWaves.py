@@ -246,14 +246,14 @@ elif selected_theme == "Demographics":
 
     # pie = base.mark_arc(outerRadius=80)
 
-# Define text labels
+    # Define text labels
 
-#text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
+    #text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
 
 
-#plot2 = (pie)
+    #plot2 = (pie)
 
-#plot2
+    #plot2
 
 
 
