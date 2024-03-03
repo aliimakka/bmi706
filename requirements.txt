@@ -1,5 +1,4 @@
 pandas
 altair
-plotly
 vega_datasets
-
+plotly==5.3.1
