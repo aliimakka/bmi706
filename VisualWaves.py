@@ -3,6 +3,7 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data
 
+
 # Load the datasets
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
 df = pd.read_csv('https://raw.githubusercontent.com/aliimakk/bmi706/main/country.csv')
