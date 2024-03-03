@@ -91,7 +91,7 @@ if selected_theme == "Country":
             ]
         ).transform_filter(selector
         ).properties(
-            title=f'Trials count by country'
+            title=f'Number of Trials by country'
         )
 
         pharma_chart_base = alt.Chart(source
@@ -117,7 +117,7 @@ if selected_theme == "Country":
             ]
         ).transform_filter(selector
         ).properties(
-            title=f'Funding count by country'
+            title=f'Number of Funding Sources by country'
         )
 
         chart2 = alt.vconcat(background + chart_rate, background + pharma_chart_rate
