@@ -191,8 +191,12 @@ elif selected_theme == "Funding":
     # Add additional charts or data related to funding theme here
 
 
-elif selected_theme == "Funding":
+elif selected_theme == "Demographics":
      st.subheader('Demographics')
-    
+     st.title('Clinical Trials - Demograpnics Dashboard')
+
+
+
+
     # Add your funding-related charts here
-     st.write("Charts related to Funding theme")
+     st.write("Charts related to Demographics theme")
