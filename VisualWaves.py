@@ -22,7 +22,7 @@ st.set_page_config(layout="wide")
 st.title('Clinical Trials Explorer')
 
 # Selector for choosing between different themes
-selected_theme = st.sidebar.selectbox("Select Theme", ["Country", "Funding", "Demographics"])
+selected_theme = st.sidebar.selectbox("Select Dashboard", ["Country", "Funding", "Demographics"])
 
 # Common selectors for year and phase
 selected_year = st.sidebar.slider('Select Year', min_value=min(merged_df['year']), max_value=max(merged_df['year']), value=(min(merged_df['year']), max(merged_df['year'])))
@@ -45,7 +45,7 @@ if selected_theme == "Country":
 
     with right_column:
     # Geospatial Chart
-        st.subheader('Geospatial Chart')
+        st.subheader('Geospatial Distribution')
     # Vega_datasets world data
         source = alt.topo_feature(data.world_110m.url, 'countries')
         width = 600
@@ -192,7 +192,6 @@ elif selected_theme == "Funding":
 
 elif selected_theme == "Demographics":
      st.subheader('Demographics')
-     st.title('Clinical Trials - Demograpnics Dashboard')
 
 
 
