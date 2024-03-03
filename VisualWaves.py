@@ -113,7 +113,7 @@ if selected_theme == "Country":
             color=pharma_rate_color,
             tooltip=[
                 alt.Tooltip('Study population:N', title='Country'),
-                alt.Tooltip('count:Q', title='Number of funding')
+                alt.Tooltip('count:Q', title='Number of funding sources by country')
             ]
         ).transform_filter(selector
         ).properties(
@@ -134,7 +134,7 @@ if selected_theme == "Country":
         df_country = df_filtered_by_phase[df_filtered_by_phase['Study population'] == country]
 
         # Line and Dot Graph for the selected country
-        st.subheader(f'Trials Over Years for {country}')
+        st.subheader(f'Number of Trials Accross the Years for {country}')
         line_chart = alt.Chart(df_country).mark_line(point=True).encode(
             x='year:O',
             y=alt.Y('totaltrials:Q',axis=alt.Axis(title='Count')),
