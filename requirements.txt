@@ -1,5 +1,5 @@
-streamlit
 pandas
 altair
+plotly
 vega_datasets
-plotly==5.15.0
+
