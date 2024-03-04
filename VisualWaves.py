@@ -289,6 +289,8 @@ elif selected_theme == "Demographics":
      num_years = unique_years_per_source.max()
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
+     race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
+
      if num_years > 11:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
              df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
@@ -300,8 +302,6 @@ elif selected_theme == "Demographics":
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
-
-     race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
 
      for source in df_filtered['source'].unique():
          
@@ -317,15 +317,14 @@ elif selected_theme == "Demographics":
              theta=alt.Theta(f"total:Q", stack=True),
              color=alt.Color("Race:N"),
              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
-         ).properties(
+         ).add_selection(race_source_selection).properties(
              width=10,
              height=10).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
          charts.append(pie)
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(
-          race_source_selection)
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered[df_filtered['source'] == source]).mark_line(point=True).encode(
