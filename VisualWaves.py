@@ -21,8 +21,6 @@ merged_df = merged_df.dropna()
 merged_df['year'] = merged_df['year'].astype(int)
 merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
 
-
-
 st.set_page_config(layout="wide")
 # Streamlit app layout
 st.title('Clinical Trials Explorer')
@@ -270,8 +268,6 @@ elif selected_theme == "Funding":
       
 
 
-    
-
 
 
 elif selected_theme == "Demographics":
@@ -298,7 +294,7 @@ elif selected_theme == "Demographics":
      else:
          df_dem['Year_Range'] = df_dem['year'].astype(str)
 
-     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race'])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else 0))
+     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race', 'source'])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else 0))
 
      base = alt.Chart(df_dem
                      ).transform_aggregate(
@@ -315,14 +311,7 @@ elif selected_theme == "Demographics":
 
      pie = base.mark_arc(outerRadius=80)
 
-     # Define text labels
-
-     #text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
-
-     plot2 = (pie)
-
-
-     chart = alt.layer(plot2).properties(
+     chart = alt.layer(pie).properties(
      width=90,
      height=90,
      data=df_dem
