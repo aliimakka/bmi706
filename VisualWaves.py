@@ -334,7 +334,7 @@ elif selected_theme == "Demographics":
      df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
      df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
-     st.write(df_filtered.head())
+     st.write(df_filtered[df_filtered['source'] == "UCB Pharma"])
 
      base = alt.Chart(df_filtered
                      ).transform_aggregate(
