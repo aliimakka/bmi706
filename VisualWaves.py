@@ -312,7 +312,7 @@ elif selected_theme == "Demographics":
              ).encode(
                    x=alt.X('source:N', axis=None),
                    y='total:Q',
-                   color=alt.Color('source:N',scale=alt.Scale(scheme='set3', reverse=True)),
+                   color=alt.Color('source:N',scale=alt.Scale(scheme='blueorange', reverse=True)),
                    column='Year_Range:O',
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
