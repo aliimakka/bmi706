@@ -322,11 +322,11 @@ elif selected_theme == "Demographics":
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-              title=f"{source}").add_selection(race_source_selection)
-          charts.append(pie)
+              title=f"{source}")
+          charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')#.add_selection(race_source_selection)
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
      st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
