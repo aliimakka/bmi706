@@ -358,10 +358,10 @@ elif selected_theme == "Demographics":
      
      plot_gender = alt.Chart(df_gender).mark_line(point=True).encode(
           x='Year_Range:N',
-          y='sum(participants):Q',
+          y='sum(participants_gender):Q',
           shape='Gender:N',
           color=alt.Color('source:N', scale=alt.Scale(range=['#FFB6C1','#AFEEEE'])),
-          tooltip=['source', 'Gender:N', 'Year_Range:N', 'sum(participants):Q'],
+          tooltip=['source', 'Gender:N', 'Year_Range:N', 'sum(participants_gender):Q'],
           #).add_selection(race_source_selection
          ).transform_filter(source_selection_multi).properties(
               width=400,
