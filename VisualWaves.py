@@ -304,7 +304,7 @@ elif selected_theme == "Demographics":
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
      for source in df_filtered['source'].unique():
-         
+         race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
          # Skip if there's no data after filtering
          if df_source.empty: 
@@ -346,8 +346,3 @@ elif selected_theme == "Demographics":
 
 
 
-
-
-
-    # Add your funding-related charts here
-     st.write("Charts related to Demographics theme")
