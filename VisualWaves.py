@@ -317,8 +317,6 @@ elif selected_theme == "Demographics":
                    column='source:O',
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
-                        width=700,
-                        height=400,
                 title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
            )
 
