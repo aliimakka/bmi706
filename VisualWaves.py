@@ -369,7 +369,7 @@ elif selected_theme == "Demographics":
               title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      
-     plot_dem = plot3 | plot_gender 
+     plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent')
      chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
             orient='right',
             padding=00,
