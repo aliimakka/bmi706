@@ -312,7 +312,7 @@ elif selected_theme == "Demographics":
              ).encode(
                    x=alt.X('source:N', axis=None),
                    y='total:Q',
-                   color=alt.Color('source:N',scale=alt.Scale(scheme='category20b', reverse=True)),
+                   color=alt.Color('source:N',scale=alt.Scale(scheme='set3', reverse=True)),
                    column='Year_Range:O',
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
@@ -331,7 +331,7 @@ elif selected_theme == "Demographics":
              proportion='mean(Proportion)'
              ).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
-              color=alt.Color("Race:N",scale=alt.Scale(scheme='tableau20', reverse=True)),
+              color=alt.Color("Race:N",scale=alt.Scale(scheme='set3', reverse=True)),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).transform_filter(source_selection_multi).properties(
               width=10,
