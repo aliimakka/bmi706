@@ -304,7 +304,6 @@ elif selected_theme == "Demographics":
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
      for source in df_filtered['source'].unique():
-         race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
          # Skip if there's no data after filtering
          if df_source.empty: 
@@ -317,12 +316,13 @@ elif selected_theme == "Demographics":
              theta=alt.Theta(f"total:Q", stack=True),
              color=alt.Color("Race:N"),
              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
-         ).add_selection(race_source_selection).properties(
+        # ).add_selection(race_source_selection
+            ).properties(
              width=10,
              height=10).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
-         charts.append(pie).add_selection(race_source_selection)
+         charts.append(pie)
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
@@ -332,15 +332,14 @@ elif selected_theme == "Demographics":
           y='sum(participants_race):Q',
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants_race)', order='descending')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants_race)'],
-          ).configure_legend(
+          ).transform_filter(race_source_selection).configure_legend(
                orient='right',
                padding=00,
                titleLimit=0,
                labelLimit=0
            ).properties(
                 title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}'
-           ).transform_filter(race_source_selection)
-     
+           )
      st.altair_chart(plot3, use_container_width=True )
 
 
