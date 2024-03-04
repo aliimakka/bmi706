@@ -289,7 +289,7 @@ elif selected_theme == "Demographics":
      num_years = unique_years_per_source.max()
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
-     race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
+     race_source_selection = alt.selection_single(encodings=['source'],on='click',empty="all",clear='dblclick')
 
      if num_years > 11:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
@@ -322,7 +322,7 @@ elif selected_theme == "Demographics":
              height=10).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
-         charts.append(pie)
+         charts.append(pie).add_selection(race_source_selection)
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
