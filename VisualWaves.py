@@ -350,7 +350,7 @@ elif selected_theme == "Demographics":
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      chart2= alt.vconcat(plot3,final_chart).configure_legend(
-          orient='right',
+          orient='top',
             padding=00,
             titleLimit=0,
             labelLimit=0
