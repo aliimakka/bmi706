@@ -361,7 +361,7 @@ elif selected_theme == "Demographics":
           y='sum(participants):Q',
           shape='Gender:N',
           color=alt.Color('source:N', scale=alt.Scale(range=['#FFB6C1','#AFEEEE'])),
-          tooltip=['source', 'Gender:N', 'Year_Range', 'sum(participants):Q'],
+          tooltip=['source', 'Gender:N', 'Year_Range:N', 'sum(participants):Q'],
           #).add_selection(race_source_selection
          ).transform_filter(source_selection_multi).properties(
               width=400,
