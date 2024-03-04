@@ -310,7 +310,7 @@ elif selected_theme == "Demographics":
          # Skip if there's no data after filtering
          if df_source.empty: 
             continue
-         pie = alt.Chart(df_source).mark_arc(outerRadius=80).transform_aggregate(
+         pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
             groupby=['source', 'Year_Range', 'Race'],
             total='sum(NormalizedValueRace)',
             participants = 'sum(participants_race)',
@@ -319,8 +319,8 @@ elif selected_theme == "Demographics":
              color=alt.Color("Race:N", legend=None),
          tooltip=['source', 'Year_Range', 'Race',]
          ).properties(
-             width=20,
-             height=20
+             width=10,
+             height=10
          ).facet(
              column='Year_Range:N',
              title=f"Race Breakdown for {source}"
