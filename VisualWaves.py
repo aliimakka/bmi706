@@ -285,8 +285,8 @@ elif selected_theme == "Demographics":
 
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left').dropna()
 
-     df_race.head()
-     df_gender.head()
+     st.write(df_race.head())
+     st.write(df_gender.head())
      num_years= df_dem['year'].nunique()
 
      if num_years > 10:
@@ -298,7 +298,7 @@ elif selected_theme == "Demographics":
 
      df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
 
-     df_dem.head()
+     st.write(df_dem.head())
 
      base = alt.Chart(df_dem
                      ).transform_aggregate(
