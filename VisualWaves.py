@@ -314,7 +314,7 @@ elif selected_theme == "Demographics":
           pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(participants)',
-             proportion='avg(Proportion)'
+             proportion='mean(Proportion)'
              ).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
