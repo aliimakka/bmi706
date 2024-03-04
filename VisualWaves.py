@@ -284,20 +284,39 @@ elif selected_theme == "Demographics":
      value_name="participants_gender",).drop_duplicates()
 
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source',], how='left').dropna()
+     charts = []
 
-     st.write(df_race.head())
-     st.write(df_gender.head())
+     for source in df_dem['source'].unique():
+         if num_years > 10:
+             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
+             df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
+             df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
+         else:
+             df_race['Year_Range'] = df_race['year'].astype(str)
+
+             df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
+         df_source = df_dem[df_dem['source'] == source].dropna(subset=['Year_Range'])
+         # Skip if there's no data after filtering
+         if df_source.empty:
+            continue
+         pie = alt.Chart(df_source).mark_arc(outerRadius=80).encode(
+             theta=alt.Theta(f"participants:Q", stack=True),
+             color=alt.Color("Race:N", legend=None),
+         tooltip=['source', 'Year_Range', 'Race', 'participants:Q']
+         ).properties(
+             width=60,
+             height=60
+         ).facet(
+             column='Year_Range:N',
+             title=f"Race Breakdown for {source}"
+                   )
+         charts.append(pie)
+
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
+     st.altair_chart(final_chart, use_container_width=True)
+
      num_years= df_race['year'].nunique()
 
-     if num_years > 10:
-         year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
-         df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
-         df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
-     else:
-         df_race['Year_Range'] = df_race['year'].astype(str)
-
-     df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
-     
      df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
      df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
@@ -322,6 +341,7 @@ elif selected_theme == "Demographics":
      data=df_filtered
      ).facet(
          row = 'source:N',
+         column=
          title="Race Breakdown Over Time by Group"
          )
      st.altair_chart(chart, use_container_width=True)
