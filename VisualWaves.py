@@ -300,7 +300,9 @@ elif selected_theme == "Demographics":
 
      st.write(df_race.head())
 
-     base = alt.Chart(df_race
+     df_race_non_zero = df_race[df_race['NormalizedValueRange'] != 0]
+
+     base = alt.Chart(df_race_non_zero
                      ).transform_aggregate(
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
@@ -316,7 +318,7 @@ elif selected_theme == "Demographics":
      chart = alt.layer(pie).properties(
      width=60,
      height=60,
-     data=df_race
+     data=df_race_non_zero
      ).facet(
          column='Year_Range:N',
          row = 'source:N',
