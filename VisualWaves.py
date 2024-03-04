@@ -287,7 +287,7 @@ elif selected_theme == "Demographics":
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-     #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
+    
 
      race_source_selection = alt.selection_single(encodings=['y'], on='click',clear='dblclick')
 
@@ -304,7 +304,8 @@ elif selected_theme == "Demographics":
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
-
+     df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
+     """ 
      for source in df_filtered['source'].unique():
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
          # Skip if there's no data after filtering
@@ -322,11 +323,31 @@ elif selected_theme == "Demographics":
              width=10,
              height=10).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-             title=f"{source}")
-         charts.append(pie)
+             title=f"{source}").add_selection(race_source_selection)
+         charts.append(pie) """
+
+
+
+     faceted_pie = alt.Chart(df_filtered).mark_arc(outerRadius=100).transform_aggregate(
+            groupby=['source', 'Year_Range', 'Race'],
+            total='sum(NormalizedValueRace)',
+            participants='sum(participants_race)',
+            ).encode(
+                theta=alt.Theta("total:Q", stack=True),
+                color=alt.Color("Race:N"),
+                tooltip=['source', 'Year_Range', 'Race', 'sum(participants):Q'],
+            ).properties(
+                #width=180,  # Adjusted for visibility
+                #height=180  # Adjusted for visibility
+            ).facet(
+                column='Year_Range:N',
+                title='Race Breakdown by Source and Year Range'
+            ).add_selection(
+                race_source_selection
+)
 
      final_chart = alt.vconcat(*charts).add_selection(race_source_selection)#.resolve_scale(x='independent')
-     st.altair_chart(final_chart, use_container_width=True )
+     st.altair_chart(faceted_pie, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
