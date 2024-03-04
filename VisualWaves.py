@@ -351,11 +351,11 @@ elif selected_theme == "Demographics":
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           
           #).add_selection(race_source_selection
-         ).transform_filter(source_selection_multi).properties(
+         ).transform_filter(source_selection_multi,resolve='intersect').properties(
               width=400,
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
-           ).transform_filter(race_source_selection)
+           ).transform_filter(race_source_selection,resolve='intersect')
 
      
      plot_gender = alt.Chart(df_gender).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white")).encode(
@@ -366,11 +366,11 @@ elif selected_theme == "Demographics":
           detail='Gender:N',
           tooltip=['source', 'Gender:N', 'year:Q', 'sum(participants_gender):Q'],
           #).add_selection(race_source_selection
-         ).transform_filter(source_selection_multi).properties(
+         ).transform_filter(source_selection_multi, resolve='intersect').properties(
               width=400,
               height=400,
               title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
-           ).transform_filter(race_source_selection)
+           ).transform_filter(race_source_selection, resolve='intersect')
      
      plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent', shape='independent')
      chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
