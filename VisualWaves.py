@@ -316,7 +316,7 @@ elif selected_theme == "Demographics":
              theta=alt.Theta(f"total:Q", stack=True),
              color=alt.Color("Race:N"),
              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
-             #).add_selection(race_source_selection
+            ).add_selection(race_source_selection
             ).properties(
              width=10,
              height=10).facet(
