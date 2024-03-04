@@ -7,7 +7,7 @@ import altair as alt
 from vega_datasets import data
 import streamlit as st
 
-@st.cache
+#@st.cache
 
 country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
 df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
