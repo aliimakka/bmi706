@@ -305,26 +305,26 @@ elif selected_theme == "Demographics":
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
      df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
-     """ 
-     for source in df_filtered['source'].unique():
-         df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
-         # Skip if there's no data after filtering
-         if df_source.empty: 
-            continue
-         pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
-            groupby=['source', 'Year_Range', 'Race'],
-            total='sum(NormalizedValueRace)',
-            participants = 'sum(participants_race)',
-            ).encode(
-             theta=alt.Theta(f"total:Q", stack=True),
-             color=alt.Color("Race:N"),
-             tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
-            ).properties(
-             width=10,
-             height=10).facet(
-             column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-             title=f"{source}").add_selection(race_source_selection)
-         charts.append(pie) """
+    
+     #  for source in df_filtered['source'].unique():
+     #      df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
+     #      # Skip if there's no data after filtering
+     #      if df_source.empty: 
+     #         continue
+     #      pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
+     #         groupby=['source', 'Year_Range', 'Race'],
+     #         total='sum(NormalizedValueRace)',
+     #         participants = 'sum(participants_race)',
+     #         ).encode(
+     #          theta=alt.Theta(f"total:Q", stack=True),
+     #          color=alt.Color("Race:N"),
+     #          tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
+     #         ).properties(
+     #          width=10,
+     #          height=10).facet(
+     #          column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
+     #          title=f"{source}").add_selection(race_source_selection)
+     #      charts.append(pie)
 
 
 
@@ -344,9 +344,9 @@ elif selected_theme == "Demographics":
                 title='Race Breakdown by Source and Year Range'
             ).add_selection(
                 race_source_selection
-)
+          )           
 
-     final_chart = alt.vconcat(*charts).add_selection(race_source_selection)#.resolve_scale(x='independent')
+     #final_chart = alt.vconcat(*charts).add_selection(race_source_selection)#.resolve_scale(x='independent')
      st.altair_chart(faceted_pie, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
