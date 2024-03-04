@@ -327,7 +327,6 @@ elif selected_theme == "Demographics":
       
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
-     st.altair_chart(final_chart, use_container_width=True )
 
      pie1 = alt.Chart(df_filtered[df_filtered['source'] == 'UCB Pharma']).mark_arc(outerRadius=40).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
