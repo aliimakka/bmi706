@@ -277,8 +277,10 @@ elif selected_theme == "Demographics":
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
      var_name="Race",
-     value_name="participants_race",).drop_duplicates().groupby(['source', 'Year_Range','Race',])
+     value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants_race': 'sum'})
  
+     st.write(df_race.head)
+
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Gender",
@@ -299,6 +301,8 @@ elif selected_theme == "Demographics":
 
      df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range'])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
+     
+
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
@@ -308,7 +312,7 @@ elif selected_theme == "Demographics":
           # Skip if there's no data after filtering
           if df_source.empty: 
              continue
-          pie = alt.Chart(df_filtered.dropna(subset=['source', 'Year_Range'])).mark_arc(outerRadius=40).transform_aggregate(
+          pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(NormalizedValueRace)',
              participants = 'sum(participants_race)',
