@@ -355,7 +355,7 @@ elif selected_theme == "Demographics":
               width=400,
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
-           )
+           ).transform_filter(race_source_selection)
 
      
      plot_gender = alt.Chart(df_gender).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white")).encode(
@@ -370,7 +370,7 @@ elif selected_theme == "Demographics":
               width=400,
               height=400,
               title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
-           )
+           ).transform_filter(race_source_selection)
      
      plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent', shape='independent')
      chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
