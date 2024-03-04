@@ -345,15 +345,10 @@ elif selected_theme == "Demographics":
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants)', order='descending')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
-         ).transform_filter(race_source_selection).configure_legend(
-               orient='right',
-               padding=00,
-               titleLimit=0,
-               labelLimit=0
-           ).properties(
+         ).transform_filter(race_source_selection).properties(
                 title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}'
            )
-     chart2= pie1+plot3    
+     chart2= alt.vconcat(pie1,plot3)    
      st.altair_chart(chart2, use_container_width=True )
 
 
