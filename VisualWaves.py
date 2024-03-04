@@ -314,7 +314,8 @@ elif selected_theme == "Demographics":
                    x='Year_Range:O',
                    y='total:Q',
                    color=alt.Color('source:N'),
-                   tooltip=['source','year', 'sum(participants)'],
+                   column='source:O',
+                   tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
                         width=700,
                         height=400,
