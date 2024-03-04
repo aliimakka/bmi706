@@ -357,7 +357,7 @@ elif selected_theme == "Demographics":
            )
      
      plot_gender = alt.Chart(df_gender).mark_line(point=True).encode(
-          x='year:Q',
+          x='year:O',
           y='sum(participants_gender):Q',
           shape='Gender:N',
           color=alt.Color('source:N', scale=alt.Scale(scheme='blueorange', reverse=True)),
