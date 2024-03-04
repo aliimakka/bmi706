@@ -301,7 +301,7 @@ elif selected_theme == "Demographics":
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
-     race_source_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
+     race_source_selection = alt.selection_single(fields=['source'],on='click',empty="all",clear='dblclick')
 
      for source in df_filtered['source'].unique():
          
