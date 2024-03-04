@@ -276,22 +276,22 @@ elif selected_theme == "Demographics":
 
      
      st.subheader('Race breakdown by funding institution over the years')
-
+     #making race sub df
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
      var_name="Race",
      value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'}).reset_index()
-
+        #making gender sub df
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Gender",
      value_name="participants_gender",).drop_duplicates()
      charts = []
 
+     #making sure the number of years to display is reasonable
+     #if it isn't - bin the year into equally spaced ranges 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-
-    
      if num_years > 11:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
              df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
@@ -299,12 +299,13 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
+     #calculate proportions to use in pie charts
      df_race['Proportion'] = (df_race.groupby(['source','Year_Range'])['participants'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      
      df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False, by='participants')
 
-
+     #initial bar chart to be used as a selector of funding institution
      source_selection_multi = alt.selection_multi(fields=['source'], bind='legend',on='click',empty="all")
      plotlin = alt.Chart(df_filtered).mark_bar().transform_aggregate(
              groupby=['source', 'Year_Range'],
@@ -320,8 +321,10 @@ elif selected_theme == "Demographics":
            ).resolve_scale(x='independent')
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
-
+     #selector for the line chart from the pie - did not end up using it since the other one works better as a catch all sleector
      race_source_selection = alt.selection_single(fields=['source'], on='click',empty="all",clear='dblclick')
+
+     #make the pie charts for the institutions that have demographic data available for each year or range
      for source in df_filtered['source'].unique():
           df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
@@ -341,10 +344,10 @@ elif selected_theme == "Demographics":
               title=f"{source}")
           charts.append(pie.add_selection(race_source_selection))
       
-
+     #concatenate each institutions pie charts
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
 
-
+     #ine graph for institutions (or a single institution over the years for race breakdown
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='participants:Q',
@@ -357,7 +360,7 @@ elif selected_theme == "Demographics":
                 title=f'Race composition in trials sponsored by selected funding institution from {selected_year[0]} to {selected_year[1]}'
            )
 
-     
+     #line graph for institutions (or a single one if selected) over the years for gender breakdown
      plot_gender = alt.Chart(df_gender).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white")).encode(
           x='year:O',
           y='sum(participants_gender):Q',
@@ -372,6 +375,7 @@ elif selected_theme == "Demographics":
               title=f'Sex composition in trials sponsored by selected funding institution from {selected_year[0]} to {selected_year[1]}'
            )
      
+     #join all the plots together before feeding it to the altair chart display
      plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent', shape='independent')
      chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
             orient='right',
@@ -381,7 +385,7 @@ elif selected_theme == "Demographics":
             ).resolve_scale(color='independent', shape='independent')
      
 
-     
+     #display chart 
      st.altair_chart(chart2, use_container_width=True )
 
 
