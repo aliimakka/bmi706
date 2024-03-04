@@ -302,9 +302,8 @@ elif selected_theme == "Demographics":
      df_race['Proportion'] = (df_race.groupby(['source','Year_Range'])['participants'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      
-
-
      df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False, by='participants')
+
 
      source_selection_multi = alt.selection_multi(fields=['source'], bind='legend',on='click',empty="all")
      plotlin = alt.Chart(df_filtered).mark_bar().transform_aggregate(
@@ -313,7 +312,7 @@ elif selected_theme == "Demographics":
              ).encode(
                    x=alt.X('source:N', axis=None),
                    y='total:Q',
-                   color=alt.Color('source:N',scale=alt.Scale(scheme='bluepurple')),
+                   color=alt.Color('source:N',scale=alt.Scale(scheme='category20b', reverse=True)),
                    column='Year_Range:O',
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
@@ -332,7 +331,7 @@ elif selected_theme == "Demographics":
              proportion='mean(Proportion)'
              ).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
-              color=alt.Color("Race:N",scale=alt.Scale(scheme='category20b', reverse=True)),
+              color=alt.Color("Race:N",scale=alt.Scale(scheme='tableau20', reverse=True)),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).transform_filter(source_selection_multi).properties(
               width=10,
@@ -348,7 +347,7 @@ elif selected_theme == "Demographics":
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='participants:Q',
-          color=alt.Color('Race:N', scale=alt.Scale(scheme='category20b', reverse=True)),
+          color=alt.Color('Race:N', scale=alt.Scale(scheme='tableau20', reverse=True)),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
          ).transform_filter(race_source_selection).properties(
