@@ -290,17 +290,17 @@ elif selected_theme == "Demographics":
      num_years= df_dem['year'].nunique()
 
      if num_years > 10:
-         year_bins = np.linspace(df_dem['year'].min(), df_dem['year'].max(), num=11)
-         df_dem['Year_Range'] = pd.cut(df_dem['year'], bins=year_bins, include_lowest=True)
-         df_dem['Year_Range'] = df_dem['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
+         year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
+         df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
+         df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
      else:
-         df_dem['Year_Range'] = df_dem['year'].astype(str)
+         df_race['Year_Range'] = df_race['year'].astype(str)
 
-     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
+     df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
 
-     st.write(df_dem.head())
+     st.write(df_race.head())
 
-     base = alt.Chart(df_dem
+     base = alt.Chart(df_race
                      ).transform_aggregate(
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
@@ -316,7 +316,7 @@ elif selected_theme == "Demographics":
      chart = alt.layer(pie).properties(
      width=60,
      height=60,
-     data=df_dem
+     data=df_race
      ).facet(
          column='Year_Range:N',
          row = 'source:N',
