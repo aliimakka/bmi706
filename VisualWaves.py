@@ -311,7 +311,7 @@ elif selected_theme == "Demographics":
           df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
              continue
-          pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
+          pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(participants)',
              proportion='mean(Proportion)'
