@@ -4,6 +4,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 import altair as alt
+import numpy as np
 from vega_datasets import data
 import streamlit as st
 
