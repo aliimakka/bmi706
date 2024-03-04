@@ -358,7 +358,7 @@ elif selected_theme == "Demographics":
            )
 
      
-     plot_gender = alt.Chart(df_gender).mark_line(point=True, filled=False).encode(
+     plot_gender = alt.Chart(df_gender).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white")).encode(
           x='year:O',
           y='sum(participants_gender):Q',
           shape='Gender:N',
