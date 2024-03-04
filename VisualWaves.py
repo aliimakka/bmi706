@@ -324,10 +324,10 @@ elif selected_theme == "Demographics":
              title=f"{source}")
          charts.append(pie)
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent')#.add_selection(race_source_selection)
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
 
-     plot3 = alt.Chart(df_filtered[df_filtered['source'] == source]).mark_line(point=True).encode(
+     plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='sum(participants_race):Q',
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants_race)', order='descending')),
