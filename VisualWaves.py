@@ -356,9 +356,9 @@ elif selected_theme == "Demographics":
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
-           
+
      
-     plot_gender = alt.Chart(df_gender).mark_line(point=True, fill=False).encode(
+     plot_gender = alt.Chart(df_gender).mark_line(point=True, filled=False).encode(
           x='year:O',
           y='sum(participants_gender):Q',
           shape='Gender:N',
