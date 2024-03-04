@@ -306,8 +306,10 @@ elif selected_theme == "Demographics":
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
          participants = 'sum(participants_race)',
-         percentage = (('sum(participants_race)' / 'total_pts') *100)
-     ).encode(
+         # percentage = (('sum(participants_race)' / 'total_pts') *100)
+         ).transform_calculate(
+         percentage='datum.total_pts / datum.total * 100'
+         ).encode(
          theta=alt.Theta("total:Q", stack=True),
          color=alt.Color("Race:N", legend=None),
          tooltip=['source', 'Year_Range','Race', 'participants', 'percentage'],
