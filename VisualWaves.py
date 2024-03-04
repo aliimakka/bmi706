@@ -323,11 +323,27 @@ elif selected_theme == "Demographics":
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
               title=f"{source}")
-          charts.append(pie.add_selection(race_source_selection))
+          charts.append(pie)
       
 
-     final_chart = alt.vconcat(*charts).add_selection(race_source_selection).resolve_scale(x='independent', y='independent')
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
      st.altair_chart(final_chart, use_container_width=True )
+
+     pie1 = alt.Chart(df_filtered[df_filtered['source'] == 'UCB Pharma']).mark_arc(outerRadius=40).transform_aggregate(
+             groupby=['source', 'Year_Range', 'Race'],
+             total='sum(participants)',
+             proportion='mean(Proportion)'
+             ).encode(
+              theta=alt.Theta(f"proportion:Q", stack=True),
+              color=alt.Color("Race:N"),
+              tooltip=['source', 'Year_Range','Race', 'total:Q'],
+             ).properties(
+              width=10,
+              height=10).facet(
+              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
+              title=f"{source}").add_selection(race_source_selection)
+     
+     st.altair_chart(pie1, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
