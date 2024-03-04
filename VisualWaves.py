@@ -15,7 +15,7 @@ df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study pop
 pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
 pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
 
-merged_df = pd.merge(df, country_df[['ID', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
+merged_df = pd.merge(df, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
 merged_df = merged_df.dropna()
 merged_df['year'] = merged_df['year'].astype(int)
 merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
