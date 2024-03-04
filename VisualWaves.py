@@ -273,8 +273,8 @@ elif selected_theme == "Funding":
 elif selected_theme == "Demographics":
      st.subheader('Demographics')
 
-     df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source', 'phase']], combined_race_df, on='ID', how='left').melt( 
-     id_vars=["ID", "year", 'phase','source',],
+     df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
+     id_vars=["ID", "year",'source',],
      var_name="Race",
      value_name="participants_race",).drop_duplicates()
  
@@ -299,7 +299,7 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
-     df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(
+     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range','Race'])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
