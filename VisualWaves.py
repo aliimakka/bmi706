@@ -311,10 +311,10 @@ elif selected_theme == "Demographics":
              groupby=['source', 'Year_Range'],
              total='sum(participants)',
              ).encode(
-                   x='Year_Range:O',
+                   x='source:O',
                    y='total:Q',
                    color=alt.Color('source:N'),
-                   column='source:O',
+                   column='Year_Range:O',
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
                 title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
@@ -334,12 +334,12 @@ elif selected_theme == "Demographics":
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
-             ).properties(
+             ).transform_filter(source_selection_multi).properties(
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
               title=f"{source}")
-          charts.append(pie.add_selection(race_source_selection).transform_filter(source_selection_multi))
+          charts.append(pie.add_selection(race_source_selection))
       
 
      final_chart = alt.vconcat(*charts).transform_filter(source_selection_multi).resolve_scale(x='independent', y='independent')
