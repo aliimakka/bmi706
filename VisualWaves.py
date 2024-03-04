@@ -288,7 +288,6 @@ elif selected_theme == "Demographics":
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-     st.write(unique_years_per_source)
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
      if num_years > 11:
@@ -316,7 +315,7 @@ elif selected_theme == "Demographics":
             ).encode(
              theta=alt.Theta(f"total:Q", stack=True),
              color=alt.Color("Race:N", legend=None),
-         tooltip=['source', 'Year_Range', 'Race',]
+             tooltip=['source', 'Year_Range','Race', 'participants:Q'],
          ).properties(
              width=10,
              height=10
@@ -328,36 +327,6 @@ elif selected_theme == "Demographics":
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
      st.altair_chart(final_chart, use_container_width=True)
 
-     
-     df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
-     df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
-
-     st.write(df_filtered[df_filtered['source'] == "UCB Pharma"])
-
-
-     base = alt.Chart(df_filtered
-                     ).transform_aggregate(
-         groupby=['source', 'Year_Range', 'Race'],
-         total='sum(NormalizedValueRace)',
-         participants = 'sum(participants_race)',
-         ).encode(
-         theta=alt.Theta("total:Q", stack=True),
-         color=alt.Color("Race:N", legend=None),
-         tooltip=['source', 'Year_Range','Race', 'participants:Q'],
-     )
-
-     pie = base.mark_arc(outerRadius=80)
-
-     chart = alt.layer(pie).properties(
-     width=60,
-     height=60,
-     data=df_filtered
-     ).facet(
-         row = 'source:N',
-         column='Year_Range:N',
-         title="Race Breakdown Over Time by Group"
-         )
-     st.altair_chart(chart, use_container_width=True)
 
 
 
