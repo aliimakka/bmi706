@@ -289,19 +289,19 @@ elif selected_theme == "Demographics":
      num_years= df_race['year'].nunique()
 
 
-     df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
+     
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
      if num_years > 10:
-             year_bins = np.linspace(df_filtered['year'].min(), df_filtered['year'].max(), num=11)
-             df_race['Year_Range'] = pd.cut(df_filtered['year'], bins=year_bins, include_lowest=True)
-             df_race['Year_Range'] = df_filtered['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
+             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
+             df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
+             df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
      else:
-             df_race['Year_Range'] = df_filtered['year'].astype(str)
+             df_race['Year_Range'] = df_race['year'].astype(str)
 
              df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
-
+     df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
      for source in df_filtered['source'].unique():
          
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
