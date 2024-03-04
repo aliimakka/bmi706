@@ -301,7 +301,7 @@ elif selected_theme == "Demographics":
      
 
 
-     df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False)
+     df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False, by='participants')
 
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
