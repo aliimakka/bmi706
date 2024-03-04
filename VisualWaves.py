@@ -342,7 +342,7 @@ elif selected_theme == "Demographics":
           charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts.notna()).resolve_scale(x='independent', y='independent')
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
 
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
