@@ -319,8 +319,8 @@ elif selected_theme == "Demographics":
              color=alt.Color("Race:N", legend=None),
          tooltip=['source', 'Year_Range', 'Race',]
          ).properties(
-           #  width=60,
-            # height=60
+             width=20,
+             height=20
          ).facet(
              column='Year_Range:N',
              title=f"Race Breakdown for {source}"
