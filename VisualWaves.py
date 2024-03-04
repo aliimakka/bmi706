@@ -312,7 +312,7 @@ elif selected_theme == "Demographics":
          ).encode(
          theta=alt.Theta("total:Q", stack=True),
          color=alt.Color("Race:N", legend=None),
-         tooltip=['source', 'Year_Range','Race', 'participants:Q', 'percentage:Q'],
+         tooltip=['source', 'Year_Range','Race', 'participants:Q'],
      )
 
      pie = base.mark_arc(outerRadius=80)
@@ -330,8 +330,8 @@ elif selected_theme == "Demographics":
      data=df_dem
      ).facet(
          column='Year_Range:N',
-         row = 'Group:N',
-         title="Sample Representation of Pie Charts Over Time by Group"
+         row = 'Race:N',
+         title="Race Breakdown Over Time by Group"
          )
      st.altair_chart(chart, use_container_width=True)
 
