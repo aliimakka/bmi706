@@ -316,7 +316,7 @@ elif selected_theme == "Demographics":
             participants = 'sum(participants_race)',
             ).encode(
              theta=alt.Theta(f"total:Q", stack=True),
-             color=alt.Color("Race:N", legend=None, scale=alt.Scale(scheme='pastel')),
+             color=alt.Color("Race:N", legend=None),
              tooltip=['source', 'Year_Range','Race', 'participants:Q'],
          ).properties(
              width=10,
@@ -327,7 +327,7 @@ elif selected_theme == "Demographics":
          charts.append(pie)
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
-     st.altair_chart(final_chart, use_container_width=True, )
+     st.altair_chart(final_chart, use_container_width=True )
 
 
 
