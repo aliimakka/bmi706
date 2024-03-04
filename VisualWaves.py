@@ -318,7 +318,7 @@ elif selected_theme == "Demographics":
                    tooltip=['source','Year_Range', 'sum(participants)'],
                    ).add_selection(source_selection_multi).properties(
                 title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
-           )
+           ).resolve_scale(x='independent')
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
      race_source_selection = alt.selection_single(fields=['source'], on='click',empty="all",clear='dblclick')
