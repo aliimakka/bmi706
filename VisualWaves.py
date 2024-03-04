@@ -324,7 +324,7 @@ elif selected_theme == "Demographics":
           charts.append(pie)
       
 
-     final_chart = alt.vconcat(*charts)#.resolve_scale(x='independent')
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
      st.altair_chart(final_chart.add_selection(race_source_selection), use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
