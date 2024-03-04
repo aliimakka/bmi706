@@ -287,7 +287,7 @@ elif selected_theme == "Demographics":
 
      st.write(df_race.head())
      st.write(df_gender.head())
-     num_years= df_dem['year'].nunique()
+     num_years= df_race['year'].nunique()
 
      if num_years > 10:
          year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
@@ -298,7 +298,7 @@ elif selected_theme == "Demographics":
 
      df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
 
-     st.write(df_race.head())
+     st.write(df_race_non_zero.head())
 
      df_race_non_zero = df_race[df_race['NormalizedValueRace'] != 0]
 
