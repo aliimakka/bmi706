@@ -356,15 +356,15 @@ elif selected_theme == "Demographics":
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
+           
      
-     plot_gender = alt.Chart(df_gender).mark_line(point=True).encode(
+     plot_gender = alt.Chart(df_gender).mark_line(point=True, fill=False).encode(
           x='year:O',
           y='sum(participants_gender):Q',
           shape='Gender:N',
           color=alt.Color('source:N', scale=alt.Scale(scheme='blueorange', reverse=True)),
           detail='Gender:N',
           tooltip=['source', 'Gender:N', 'year:Q', 'sum(participants_gender):Q'],
-          size=5,
           #).add_selection(race_source_selection
          ).transform_filter(source_selection_multi).properties(
               width=400,
