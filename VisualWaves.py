@@ -288,10 +288,8 @@ elif selected_theme == "Demographics":
          )
 
 
-
-
-# Display the chart
-chart.display()
+     # Display the chart
+     chart.display()
 
 
 
