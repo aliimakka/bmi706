@@ -320,6 +320,7 @@ elif selected_theme == "Demographics":
            ).resolve_scale(x='independent')
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
+
      race_source_selection = alt.selection_single(fields=['source'], on='click',empty="all",clear='dblclick')
      for source in df_filtered['source'].unique():
           df_source = df_filtered[df_filtered['source'] == source]
@@ -333,7 +334,7 @@ elif selected_theme == "Demographics":
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N",scale=alt.Scale(scheme='darkmulti'),  sort=['White', 'Black', 'Asian', 'Asian_Pacific Islander', 'other']),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
-             ).transform_filter(source_selection_multi).properties(
+             ).properties(
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
@@ -341,7 +342,7 @@ elif selected_theme == "Demographics":
           charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts).transform_filter(source_selection_multi).resolve_scale(x='independent', y='independent').transform_filter(source_selection_multi)
+     final_chart = alt.vconcat(*charts).transform_filter(source_selection_multi).resolve_scale(x='independent', y='independent')
 
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
@@ -351,7 +352,7 @@ elif selected_theme == "Demographics":
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           
           #).add_selection(race_source_selection
-         ).transform_filter(race_source_selection).transform_filter(source_selection_multi).properties(
+         ).transform_filter(race_source_selection).properties(
               width=400,
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
