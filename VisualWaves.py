@@ -278,8 +278,6 @@ elif selected_theme == "Demographics":
      id_vars=["ID", "year",'source',],
      var_name="Race",
      value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'}).reset_index()
- 
-     st.write(df_race.head())
 
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
@@ -289,7 +287,6 @@ elif selected_theme == "Demographics":
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-     
 
      race_source_selection = alt.selection_single(fields=['source'], on='click',clear='dblclick')
      if num_years > 11:
@@ -303,8 +300,10 @@ elif selected_theme == "Demographics":
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      
 
-    
-     df_filtered = df_race[df_race['Proportion'].notna()]
+
+     df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False)
+
+
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
     
      for source in df_filtered['source'].unique():
@@ -323,11 +322,11 @@ elif selected_theme == "Demographics":
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-              title=f"{source}")#.add_selection(race_source_selection)
+              title=f"{source}").add_selection(race_source_selection)
           charts.append(pie)
       
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent').add_selection(race_source_selection)
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')#.add_selection(race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
