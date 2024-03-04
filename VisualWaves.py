@@ -345,12 +345,12 @@ elif selected_theme == "Demographics":
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
          ).transform_filter(race_source_selection).properties(
-              width=200,
-              height=200,
+              width=400,
+              height=400,
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      chart2= alt.vconcat(plot3,final_chart).configure_legend(
-          orient='top',
+          orient='bottom',
             padding=00,
             titleLimit=0,
             labelLimit=0
