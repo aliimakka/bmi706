@@ -294,19 +294,17 @@ elif selected_theme == "Demographics":
      else:
          df_dem['Year_Range'] = df_dem['year'].astype(str)
 
-     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race', 'source'])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else 0))
+     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
 
      base = alt.Chart(df_dem
                      ).transform_aggregate(
-         total_pts = 'sum(participants_race)',
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
          participants = 'sum(participants_race)',
-         # percentage = (('sum(participants_race)' / 'total_pts') *100)
          ).encode(
          theta=alt.Theta("total:Q", stack=True),
          color=alt.Color("Race:N", legend=None),
-         #tooltip=['source', 'Year_Range','Race', 'participants:Q'],
+         tooltip=['source', 'Year_Range','Race', 'participants:Q'],
      )
 
      pie = base.mark_arc(outerRadius=80)
