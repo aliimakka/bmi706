@@ -300,7 +300,7 @@ elif selected_theme == "Demographics":
 
      st.write(df_race.head())
 
-     df_race_non_zero = df_race[df_race['NormalizedValueRange'] != 0]
+     df_race_non_zero = df_race[df_race['NormalizedValueRace'] != 0]
 
      base = alt.Chart(df_race_non_zero
                      ).transform_aggregate(
