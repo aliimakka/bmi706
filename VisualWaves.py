@@ -311,7 +311,7 @@ elif selected_theme == "Demographics":
              groupby=['source', 'Year_Range'],
              total='sum(participants)',
              ).encode(
-                   x='source:O',
+                   x=alt.X('source:N', axis=None),
                    y='total:Q',
                    color=alt.Color('source:N'),
                    column='Year_Range:O',
