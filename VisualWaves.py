@@ -277,7 +277,7 @@ elif selected_theme == "Demographics":
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
      var_name="Race",
-     value_name="participants_race",).drop_duplicates()
+     value_name="participants_race",).drop_duplicates().groupby(['source', 'Year_Range','Race',])
  
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
@@ -287,7 +287,7 @@ elif selected_theme == "Demographics":
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-    
+     
 
      race_source_selection = alt.selection_single(fields=['source'], on='click',clear='dblclick')
      if num_years > 11:
