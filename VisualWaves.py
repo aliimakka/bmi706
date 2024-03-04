@@ -333,7 +333,7 @@ elif selected_theme == "Demographics":
           x='year:N',
           y='sum(participants_race):Q',
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants_race)', order='descending')),
-          tooltip=['source', 'race', 'year', 'sum(participants_race)'],
+          tooltip=['source', 'Race:N', 'year', 'sum(participants_race)'],
           ).configure_legend(
                orient='right',
                padding=00,
