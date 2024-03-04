@@ -251,18 +251,21 @@ elif selected_theme == "Funding":
      for i in range(1, len(increments)):
         starts[i] = starts[i-1] + increments[i-1]
 
-     # Plotting the waterfall plot
-     fig, ax = plt.subplots()
-     bars = plt.bar(final_counts.index, increments, bottom=starts)
+     # Waterfall plot
+     fig2 = go.Figure(go.Waterfall(
+     name="20", orientation="v",
+     measure=["relative"] * len(final_counts),
+     x=final_counts.index,
+     textposition="outside",
+     text=final_counts.values,
+     y=final_counts.values,
+     connector={"line":{"color":"rgb(63, 63, 63)"}},
+        ))
 
-     # Adding labels and title
-     plt.title('Clinical Trials by Sponsor')
-     plt.xlabel('Sponsor')
-     plt.ylabel('Number of Trials')
-     plt.xticks(rotation=45)
+     fig2.update_layout(title="Clinical Trials by Sponsor")
 
      # Display the plot in Streamlit
-     st.pyplot(fig)
+     st.plotly_chart(fig2)
 
       
 
