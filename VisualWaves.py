@@ -289,7 +289,9 @@ elif selected_theme == "Demographics":
      num_years = unique_years_per_source.max()
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
-     race_source_selection = alt.selection_single(fields=['Race'], on='click',empty="all",clear='dblclick')
+     race_source_selection = alt.selection_single(encodings=['y'], on='click',clear='dblclick')
+
+
 
      if num_years > 11:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
