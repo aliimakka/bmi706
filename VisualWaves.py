@@ -308,11 +308,10 @@ elif selected_theme == "Demographics":
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
     
      for source in df_filtered['source'].unique():
-          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
-          # Skip if there's no data after filtering
+          df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
              continue
-          pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
+          pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(NormalizedValueRace)',
              ).encode(
@@ -327,7 +326,7 @@ elif selected_theme == "Demographics":
           charts.append(pie)
       
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
+     final_chart = alt.vconcat(*charts)#.resolve_scale(x='independent')
      st.altair_chart(final_chart.add_selection(race_source_selection), use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
