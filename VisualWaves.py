@@ -329,14 +329,10 @@ elif selected_theme == "Demographics":
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
      st.altair_chart(final_chart, use_container_width=True )
 
-     pie1 = alt.Chart(df_filtered[df_filtered['source'] == 'UCB Pharma']).mark_arc(outerRadius=40).transform_aggregate(
-             groupby=['source', 'Year_Range', 'Race'],
-             total='sum(participants)',
-             proportion='mean(Proportion)'
-             ).encode(
+     pie1 = alt.Chart(df_filtered[df_filtered['source'] == 'UCB Pharma']).mark_arc(outerRadius=40).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
-              tooltip=['source', 'Year_Range','Race', 'total:Q'],
+              tooltip=['source', 'Year_Range','Race'],
              ).properties(
               width=10,
               height=10).facet(
