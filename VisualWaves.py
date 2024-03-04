@@ -323,7 +323,6 @@ elif selected_theme == "Demographics":
 
      plot2 = (pie)
 
-     plot2
 
      chart = alt.layer(plot2).properties(
      width=90,
@@ -334,10 +333,7 @@ elif selected_theme == "Demographics":
          row = 'Group:N',
          title="Sample Representation of Pie Charts Over Time by Group"
          )
-
-
-     # Display the chart
-     chart.display()
+     st.altair_chart(chart, use_container_width=True)
 
 
 
