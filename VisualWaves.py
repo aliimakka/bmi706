@@ -305,7 +305,7 @@ elif selected_theme == "Demographics":
 
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
-     race_source_selection = alt.selection_single(fields=['source'], on='click',clear='dblclick')
+     race_source_selection = alt.selection_single(fields=['source'], on='click',empty="all",clear='dblclick')
      for source in df_filtered['source'].unique():
           df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
@@ -333,11 +333,11 @@ elif selected_theme == "Demographics":
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
               tooltip=['source', 'Year_Range','Race'],
-             ).properties(
+             ).add_selection(race_source_selection).properties(
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-              title=f"{source}").add_selection(race_source_selection)
+              title=f"{source}")
      
      st.altair_chart(pie1, use_container_width=True )
 
