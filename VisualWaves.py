@@ -298,9 +298,9 @@ elif selected_theme == "Demographics":
              df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
 
-     for source in df_dem['source'].unique():
+     for source in df_race['source'].unique():
          
-         df_source = df_dem[df_dem['source'] == source].dropna(subset=['Year_Range'])
+         df_source = df_race[df_race['source'] == source].dropna(subset=['Year_Range'])
          # Skip if there's no data after filtering
          if df_source.empty:
             continue
