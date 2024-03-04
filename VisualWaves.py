@@ -312,8 +312,8 @@ elif selected_theme == "Demographics":
      pie = base.mark_arc(outerRadius=80)
 
      chart = alt.layer(pie).properties(
-     width=90,
-     height=90,
+     width=60,
+     height=60,
      data=df_dem
      ).facet(
          column='Year_Range:N',
