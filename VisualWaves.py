@@ -277,7 +277,7 @@ elif selected_theme == "Demographics":
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
      var_name="Race",
-     value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'})
+     value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'}).reset_index()
  
      st.write(df_race.head())
 
