@@ -313,11 +313,12 @@ elif selected_theme == "Demographics":
              continue
           pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
-             Prop='Proportion',
+             total='sum(participants)',
+             proportion='avg(Proportion)'
              ).encode(
-              theta=alt.Theta(f"Proportion:Q", stack=True),
+              theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
-              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
+              tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).properties(
               width=10,
               height=10).facet(
