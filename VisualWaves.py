@@ -298,7 +298,7 @@ elif selected_theme == "Demographics":
      else:
          df_dem['Year_Range'] = df_dem['year'].astype(str)
 
-     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race'])['participants_race'].transform(lambda x: (x / x.sum())*100))
+     df_dem['NormalizedValueRace'] = (df_dem.groupby(['Year_Range', 'Race'])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else 0))
 
      base = alt.Chart(df_dem
                      ).transform_aggregate(
