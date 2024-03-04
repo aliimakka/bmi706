@@ -165,65 +165,106 @@ if selected_theme == "Country":
  
 elif selected_theme == "Funding":
     # Display charts related to funding theme
-    st.subheader('Funding')
+     st.subheader('Funding')
     
-    # Add your funding-related charts here
-    st.write("Charts related to Funding theme")
+     # Add your funding-related charts here
+     st.write("Charts related to Funding theme")
         #pie_chart for funding source
-    st.subheader(f'Total trials over years by top 10 funding sources')
-    pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
-    funding=pharma2_filtered_by_phase.groupby(['source']).size().reset_index(name='count')
-    funding_sorted = funding.sort_values(by='count', ascending=False)
-    top_10_funding = funding_sorted.head(10)
-    pie_chart = alt.Chart(top_10_funding).mark_arc().encode(
+     st.subheader(f'Total trials over years by top 10 funding sources')
+     pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
+     funding=pharma2_filtered_by_phase.groupby(['source']).size().reset_index(name='count')
+     funding_sorted = funding.sort_values(by='count', ascending=False)
+     top_10_funding = funding_sorted.head(10)
+     pie_chart = alt.Chart(top_10_funding).mark_arc().encode(
         theta=alt.Theta(field="count", type="quantitative"),
         color=alt.Color(field="source", type="nominal"),
         tooltip=['source', 'count']
-    ).add_selection(
+     ).add_selection(
         pharma_selection
-    )
+     )
 
-    company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
+     company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
     
     # Create the line chart with filtered data based on the selection
-    line_chart = alt.Chart(company_summary).mark_line(point=True).encode(
+     line_chart = alt.Chart(company_summary).mark_line(point=True).encode(
         x=alt.X('year:O'),
         y='count:Q',
         color='source:N',
         tooltip=['source', 'year', 'count']
-    ).transform_filter(
+     ).transform_filter(
         pharma_selection
-    ).interactive()
+     ).interactive()
 
-    # Display the combined chart
-    combined_chart = pie_chart | line_chart
-    st.altair_chart(combined_chart, use_container_width=True)
-    # Add additional charts or data related to funding theme here
-    st.title('Seizure Type Comparison Across Age Groups')
+     # Display the combined chart
+     combined_chart = pie_chart | line_chart
+     st.altair_chart(combined_chart, use_container_width=True)
+     # Add additional charts or data related to funding theme here
+     st.title('Seizure Type Comparison Across Age Groups')
 
-    # Load the dataset from the specified path
-    data = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications_age_groups.csv')
+     # Load the dataset from the specified path
+     data = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications_age_groups.csv')
 
-    # Filter for the specified seizure types
-    seizure_types_of_interest = ['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
-    filtered_data = data[data['indication_gen'].isin(seizure_types_of_interest)]
+     seizure_types_of_interest = ['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
+     filtered_data = data[data['indication_gen'].isin(seizure_types_of_interest)]
 
-    # Aggregate the data by 'Age Group' and 'indication_gen'
-    aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
+     # Aggregate the data by 'Age Group' and 'indication_gen'
+     aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
+
+     # Plotting
+     fig, ax = plt.subplots()
+     aggregated_data.plot(kind='bar', figsize=(10, 7), ax=ax)
+     plt.title('Comparison of Seizure Types Across Age Groups')
+     plt.xlabel('Age Group')
+     plt.ylabel('Count')
+     plt.xticks(rotation=45)
+     plt.legend(title='Seizure Type')
+     plt.tight_layout()
+
+     # Display the plot in Streamlit
+     st.pyplot(fig)
 
 
-    # Plotting
-    fig, ax = plt.subplots()
-    aggregated_data.plot(kind='bar', figsize=(10, 7), ax=ax)
-    plt.title('Comparison of Seizure Types Across Age Groups')
-    plt.xlabel('Age Group')
-    plt.ylabel('Count')
-    plt.xticks(rotation=45)
-    plt.legend(title='Seizure Type')
-    plt.tight_layout()
 
-    # Display the plot in Streamlit
-    st.plotly_chart(fig)
+
+    ####################
+
+
+
+    # New multi-select sidebar option for seizure types
+     selected_seizure_types = st.sidebar.multiselect(
+        'Select Seizure Types',
+        options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
+        default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
+     )
+
+     # Filter data based on selected seizure types (if necessary for the waterfall plot)
+     filtered_data_for_waterfall = data[data['indication_gen'].isin(selected_seizure_types)]
+
+     # Aggregate data by 'source' for the number of trials
+     sponsor_counts = filtered_data_for_waterfall['source'].value_counts()
+
+     # Separate the top 5 sponsors and group the rest as 'Other'
+     top_sponsors = sponsor_counts.head(5)
+     other_count = sponsor_counts[5:].sum()
+     final_counts = top_sponsors.append(pd.Series({'Other': other_count}))
+
+     # Waterfall plot
+     fig2 = go.Figure(go.Waterfall(
+        name="20", orientation="v",
+        measure=["relative"] * len(final_counts),
+        x=final_counts.index,
+        textposition="outside",
+        text=final_counts.values,
+        y=final_counts.values,
+        connector={"line":{"color":"rgb(63, 63, 63)"}},
+     ))
+
+     fig2.update_layout(title="Clinical Trials by Sponsor")
+
+     # Display the plot in Streamlit
+     st.plotly_chart(fig2)
+
+
     
 
 
