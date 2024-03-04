@@ -338,8 +338,6 @@ elif selected_theme == "Demographics":
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
               title=f"{source}")
-     
-     st.altair_chart(pie1, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
@@ -355,7 +353,8 @@ elif selected_theme == "Demographics":
            ).properties(
                 title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}'
            )
-     st.altair_chart(plot3, use_container_width=True )
+     chart2= alt.vconcat(pie1,plot3)    
+     st.altair_chart(chart2, use_container_width=True )
 
 
 
