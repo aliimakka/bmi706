@@ -297,14 +297,13 @@ elif selected_theme == "Demographics":
          df_race['Year_Range'] = df_race['year'].astype(str)
 
      df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
+     
      df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
-   
+     df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
-     st.write(df_race_non_zero.head())
+     st.write(df_filtered.head())
 
-
-
-     base = alt.Chart(df_race_non_zero
+     base = alt.Chart(df_filtered
                      ).transform_aggregate(
          groupby=['source', 'Year_Range', 'Race'],
          total='sum(NormalizedValueRace)',
@@ -320,7 +319,7 @@ elif selected_theme == "Demographics":
      chart = alt.layer(pie).properties(
      width=60,
      height=60,
-     data=df_race_non_zero
+     data=df_filtered
      ).facet(
          column='Year_Range:N',
          row = 'source:N',
