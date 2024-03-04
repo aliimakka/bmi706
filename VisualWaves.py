@@ -353,15 +353,31 @@ elif selected_theme == "Demographics":
          ).transform_filter(source_selection_multi).properties(
               width=400,
               height=400,
-                title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
+                title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
-     chart2= alt.vconcat(plotlin,final_chart,plot3).configure_legend(
+     
+     plot_gender = alt.Chart(df_gender).mark_line(point=True).encode(
+          x='Year_Range:N',
+          y='sum(participants):Q',
+          shape='Gender:N',
+          color=alt.Color('source:N', scale=alt.Scale(range=['#FFB6C1','#AFEEEE'])),
+          tooltip=['source', 'Gender:N', 'Year_Range', 'sum(participants):Q'],
+          #).add_selection(race_source_selection
+         ).transform_filter(source_selection_multi).properties(
+              width=400,
+              height=400,
+              title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
+           )
+     
+     plot_dem = plot3 | plot_gender 
+     chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
             orient='right',
             padding=00,
             titleLimit=0,
             labelLimit=0
             ).resolve_scale(color='independent')
      
+
      
      st.altair_chart(chart2, use_container_width=True )
 
