@@ -279,7 +279,7 @@ elif selected_theme == "Demographics":
      var_name="Race",
      value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'})
  
-     st.write(df_race.head)
+     st.write(df_race.head())
 
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
