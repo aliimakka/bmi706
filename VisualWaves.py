@@ -276,12 +276,12 @@ elif selected_theme == "Demographics":
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source', 'phase']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Race",
-     value_name="participants_race",)
+     value_name="participants_race",).drop_duplicates()
  
      df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Gender",
-     value_name="participants_gender",)
+     value_name="participants_gender",).drop_duplicates()
 
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left').dropna()
 
