@@ -334,7 +334,7 @@ elif selected_theme == "Demographics":
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N",scale=alt.Scale(scheme='darkmulti'),  sort=['White', 'Black', 'Asian', 'Asian_Pacific Islander', 'other']),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
-             ).properties(
+             ).transform_filter(source_selection_multi).properties(
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
@@ -342,7 +342,7 @@ elif selected_theme == "Demographics":
           charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts).transform_filter(source_selection_multi).resolve_scale(x='independent', y='independent')
+     final_chart = alt.vconcat(*charts.notna()).resolve_scale(x='independent', y='independent')
 
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
