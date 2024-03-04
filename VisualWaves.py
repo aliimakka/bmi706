@@ -313,9 +313,9 @@ elif selected_theme == "Demographics":
              continue
           pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
-             total='sum(NormalizedValueRace)',
+             Prop='NormalizedValueRace',
              ).encode(
-              theta=alt.Theta(f"total:Q", stack=True),
+              theta=alt.Theta(f"Prop:Q", stack=True),
               color=alt.Color("Race:N"),
               tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
              ).properties(
@@ -326,8 +326,8 @@ elif selected_theme == "Demographics":
           charts.append(pie)
       
 
-     final_chart = alt.vconcat(*charts)#.resolve_scale(x='independent')
-     st.altair_chart(final_chart.add_selection(race_source_selection), use_container_width=True )
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent').add_selection(race_source_selection)
+     st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
