@@ -274,8 +274,6 @@ elif selected_theme == "Demographics":
      
      st.subheader('Demographics')
 
-     plt.viridis()
-
 
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
