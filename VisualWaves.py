@@ -362,6 +362,7 @@ elif selected_theme == "Demographics":
           y='sum(participants_gender):Q',
           shape='Gender:N',
           color=alt.Color('source:N', scale=alt.Scale(scheme='blueorange', reverse=True)),
+          detail='shifted:N',
           tooltip=['source', 'Gender:N', 'year:Q', 'sum(participants_gender):Q'],
           #).add_selection(race_source_selection
          ).transform_filter(source_selection_multi).properties(
@@ -370,13 +371,13 @@ elif selected_theme == "Demographics":
               title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      
-     plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent')
+     plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent', shape='independent')
      chart2= alt.vconcat(plotlin,final_chart,plot_dem).configure_legend(
             orient='right',
             padding=00,
             titleLimit=0,
             labelLimit=0
-            ).resolve_scale(color='independent')
+            ).resolve_scale(color='independent', shape='independent')
      
 
      
