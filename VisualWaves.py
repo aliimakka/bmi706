@@ -319,8 +319,8 @@ elif selected_theme == "Demographics":
              color=alt.Color("Race:N", legend=None),
          tooltip=['source', 'Year_Range', 'Race',]
          ).properties(
-             width=60,
-             height=60
+           #  width=60,
+            # height=60
          ).facet(
              column='Year_Range:N',
              title=f"Race Breakdown for {source}"
@@ -331,7 +331,6 @@ elif selected_theme == "Demographics":
      st.altair_chart(final_chart, use_container_width=True)
 
      
-
      df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
      df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
