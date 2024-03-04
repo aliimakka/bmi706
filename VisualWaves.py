@@ -322,7 +322,7 @@ elif selected_theme == "Demographics":
              width=10,
              height=10
          ).facet(
-             column=alt.Column('Year_Range:N', header=alt.Header(titleColor=None)),
+             column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
          charts.append(pie)
 
