@@ -350,9 +350,8 @@ elif selected_theme == "Demographics":
           y='participants:Q',
           color=alt.Color('Race:N', scale=alt.Scale(scheme='darkmulti')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
-          
           #).add_selection(race_source_selection
-         ).transform_filter(race_source_selection).properties(
+          ).transform_filter(source_selection_multi).properties(
               width=400,
               height=400,
                 title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
