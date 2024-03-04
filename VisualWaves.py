@@ -277,12 +277,12 @@ elif selected_theme == "Funding":
 elif selected_theme == "Demographics":
      st.subheader('Demographics')
 
-     df_race = pd.merge(df_filtered_by_phase["ID", "year", 'source', 'phase'], combined_race_df, on='ID', how='left').melt( 
+     df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source', 'phase']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Race",
      value_name="participants_race",)
  
-     df_gender = df_filtered_by_phase["ID", "year", 'source', 'phase', "Male", "Female"].melt( 
+     df_gender = df_filtered_by_phase[["ID", "year", 'source', 'phase', "Male", "Female"]].melt( 
      id_vars=["ID", "year", 'phase','source',],
      var_name="Gender",
      value_name="participants_gender",)
