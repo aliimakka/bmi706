@@ -331,7 +331,7 @@ elif selected_theme == "Demographics":
              proportion='mean(Proportion)'
              ).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
-              color=alt.Color("Race:N",scale=alt.Scale(scheme='darkmulti', reverse=True),  sort=['White', 'Black', 'Asian', 'Asian_Pacific Islander', 'other']),
+              color=alt.Color("Race:N",scale=alt.Scale(scheme='darkmulti'),  sort=['White', 'Black', 'Asian', 'Asian_Pacific Islander', 'other']),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).transform_filter(source_selection_multi).properties(
               width=10,
@@ -347,7 +347,7 @@ elif selected_theme == "Demographics":
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='participants:Q',
-          color=alt.Color('Race:N', scale=alt.Scale(scheme='darkmulti', reverse=True)),
+          color=alt.Color('Race:N', scale=alt.Scale(scheme='darkmulti')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
          ).transform_filter(race_source_selection).properties(
