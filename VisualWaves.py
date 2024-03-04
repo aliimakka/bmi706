@@ -340,7 +340,9 @@ elif selected_theme == "Demographics":
                titleLimit=0,
                labelLimit=0
                ).properties(
-                    title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}')
+                    title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}'
+                    ).transform_filter(race_source_selection)
+     
      st.altair_chart(plot3, use_container_width=True )
 
 
