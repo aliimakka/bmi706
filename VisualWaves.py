@@ -306,8 +306,8 @@ elif selected_theme == "Demographics":
 
      df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False, by='participants')
 
-     source_selection_multi = alt.selection_multi(fields=['source'], on='click',empty="all",clear='dblclick')
-     plotlin = alt.Chart(df_filtered).mark_line(point=True).transform_aggregate(
+     source_selection_multi = alt.selection_multi(fields=['source'], bind='legend',on='click',empty="all",clear='dblclick')
+     plotlin = alt.Chart(df_filtered).mark_bar().transform_aggregate(
              groupby=['source', 'Year_Range'],
              total='sum(participants)',
              ).encode(
