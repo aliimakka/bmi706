@@ -308,7 +308,7 @@ elif selected_theme == "Demographics":
           # Skip if there's no data after filtering
           if df_source.empty: 
              continue
-          pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
+          pie = alt.Chart(df_filtered.dropna(subset=['source', 'Year_Range'])).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(NormalizedValueRace)',
              participants = 'sum(participants_race)',
