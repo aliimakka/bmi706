@@ -314,7 +314,7 @@ elif selected_theme == "Demographics":
                    y='total:Q',
                    color=alt.Color('source:N',scale=alt.Scale(scheme='blueorange', reverse=True)),
                    column='Year_Range:O',
-                   tooltip=['source','Year_Range', 'total'],
+                   tooltip=['source','Year_Range', 'total:Q'],
                    ).add_selection(source_selection_multi).properties(
                 title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
            ).resolve_scale(x='independent')
