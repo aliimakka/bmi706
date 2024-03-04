@@ -333,7 +333,7 @@ elif selected_theme == "Demographics":
               theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N"),
               tooltip=['source', 'Year_Range','Race'],
-             ).add_selection(race_source_selection).properties(
+             ).add_params(race_source_selection).properties(
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
@@ -347,7 +347,7 @@ elif selected_theme == "Demographics":
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants)', order='descending')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
-                          ).transform_filter(race_source_selection).configure_legend(
+         ).transform_filter(race_source_selection).configure_legend(
                orient='right',
                padding=00,
                titleLimit=0,
