@@ -314,7 +314,7 @@ elif selected_theme == "Demographics":
                    y='total:Q',
                    color=alt.Color('source:N',scale=alt.Scale(scheme='blueorange', reverse=True)),
                    column='Year_Range:O',
-                   tooltip=['source','Year_Range', 'sum(participants)'],
+                   tooltip=['source','Year_Range', 'total'],
                    ).add_selection(source_selection_multi).properties(
                 title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
            ).resolve_scale(x='independent')
@@ -331,7 +331,7 @@ elif selected_theme == "Demographics":
              proportion='mean(Proportion)'
              ).encode(
               theta=alt.Theta(f"proportion:Q", stack=True),
-              color=alt.Color("Race:N",scale=alt.Scale(scheme='set3', reverse=True)),
+              color=alt.Color("Race:N",scale=alt.Scale(scheme='darkmulti', reverse=True)),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).transform_filter(source_selection_multi).properties(
               width=10,
@@ -347,7 +347,7 @@ elif selected_theme == "Demographics":
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='participants:Q',
-          color=alt.Color('Race:N', scale=alt.Scale(scheme='tableau20', reverse=True)),
+          color=alt.Color('Race:N', scale=alt.Scale(scheme='darkmulti', reverse=True)),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
          ).transform_filter(race_source_selection).properties(
