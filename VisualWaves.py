@@ -349,7 +349,13 @@ elif selected_theme == "Demographics":
               height=200,
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
-     chart2= alt.vconcat(plot3,final_chart)    
+     chart2= alt.vconcat(plot3,final_chart).configure_legend(
+          orient='right',
+            padding=00,
+            titleLimit=0,
+            labelLimit=0
+            )
+   
      st.altair_chart(chart2, use_container_width=True )
 
 
