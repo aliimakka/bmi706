@@ -277,7 +277,7 @@ elif selected_theme == "Demographics":
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
      var_name="Race",
-     value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants_race': 'sum'})
+     value_name="participants",).drop_duplicates().groupby(['source', 'year','Race',]).agg({'participants': 'sum'})
  
      st.write(df_race.head)
 
@@ -315,7 +315,6 @@ elif selected_theme == "Demographics":
           pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(NormalizedValueRace)',
-             participants = 'sum(participants_race)',
              ).encode(
               theta=alt.Theta(f"total:Q", stack=True),
               color=alt.Color("Race:N"),
@@ -334,8 +333,8 @@ elif selected_theme == "Demographics":
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
           y='sum(participants_race):Q',
-          color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants_race)', order='descending')),
-          tooltip=['source', 'Race:N', 'year', 'sum(participants_race)'],
+          color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants)', order='descending')),
+          tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           ).add_selection(race_source_selection).transform_filter(race_source_selection).configure_legend(
                orient='right',
                padding=00,
