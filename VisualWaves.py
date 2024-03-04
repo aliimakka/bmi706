@@ -286,14 +286,13 @@ elif selected_theme == "Demographics":
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source',], how='left').dropna()
      charts = []
 
-     num_years= df_race['year'].nunique()
-
-
+     unique_years_per_source = df_race.groupby('source')['year'].nunique()
+     num_years = unique_years_per_source.max()
      
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
      if num_years > 10:
-             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
+             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=16)
              df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
              df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
      else:
