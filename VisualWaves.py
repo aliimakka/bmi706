@@ -347,7 +347,7 @@ elif selected_theme == "Demographics":
           #).add_selection(race_source_selection
          ).transform_filter(race_source_selection).properties(
               width=200,
-              width=200,
+              height=200,
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      chart2= alt.vconcat(plot3,final_chart)    
