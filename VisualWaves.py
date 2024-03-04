@@ -286,6 +286,8 @@ elif selected_theme == "Demographics":
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source',], how='left').dropna()
      charts = []
 
+     num_years= df_race['year'].nunique()
+
      for source in df_dem['source'].unique():
          if num_years > 10:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
@@ -315,7 +317,7 @@ elif selected_theme == "Demographics":
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
      st.altair_chart(final_chart, use_container_width=True)
 
-     num_years= df_race['year'].nunique()
+     
 
      df_race_non_zero = df_race[df_race['NormalizedValueRace'].notna()]
      df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
