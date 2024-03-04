@@ -271,6 +271,9 @@ elif selected_theme == "Funding":
 
 
 elif selected_theme == "Demographics":
+
+
+
      
      st.subheader('Race breakdown by funding source over the years')
 
@@ -303,6 +306,20 @@ elif selected_theme == "Demographics":
 
      df_filtered = df_race[df_race['Proportion'].notna()].sort_values(ascending=False, by='participants')
 
+     source_selection_multi = alt.selection_multi(fields=['source'], on='click',empty="all",clear='dblclick')
+     plotlin = alt.Chart(df_filtered).mark_line(point=True).transform_aggregate(
+             groupby=['source', 'Year_Range'],
+             total='sum(participants)',
+             ).encode(
+                   x='Year_Range:O',
+                   y='total:Q',
+                   color=alt.Color('source:N'),
+                   tooltip=['source','year', 'sum(participants)'],
+                   ).add_selection(source_selection_multi).properties(
+                        width=700,
+                        height=400,
+                title=f'Number of participants in trials sponsored by institutions from {selected_year[0]} to {selected_year[1]}'
+           )
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
      race_source_selection = alt.selection_single(fields=['source'], on='click',empty="all",clear='dblclick')
@@ -326,17 +343,8 @@ elif selected_theme == "Demographics":
           charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
+     final_chart = alt.vconcat(*charts).transform_filter(source_selection_multi).resolve_scale(x='independent', y='independent')
 
-     pie1 = alt.Chart(df_filtered[df_filtered['source'] == 'UCB Pharma']).mark_arc(outerRadius=40).encode(
-              theta=alt.Theta(f"proportion:Q", stack=True),
-              color=alt.Color("Race:N"),
-              tooltip=['source', 'Year_Range','Race'],
-             ).add_selection(race_source_selection).properties(
-              width=10,
-              height=10).facet(
-              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-              title=f"{source}")
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
@@ -349,7 +357,7 @@ elif selected_theme == "Demographics":
               height=400,
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
-     chart2= alt.vconcat(final_chart,plot3).configure_legend(
+     chart2= alt.vconcat(plotlin,final_chart,plot3).configure_legend(
           orient='top',
             padding=00,
             titleLimit=0,
