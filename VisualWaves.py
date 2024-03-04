@@ -341,7 +341,7 @@ elif selected_theme == "Demographics":
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
           x='year:N',
-          y='sum(participants_race):Q',
+          y='participants:Q',
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants)', order='descending')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
           #).add_selection(race_source_selection
