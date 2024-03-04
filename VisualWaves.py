@@ -8,25 +8,18 @@ from vega_datasets import data
 import streamlit as st
 
 @st.cache
-def load_data():
-    country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
-    df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
-    df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
-    pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
-    pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
 
+country_df = pd.read_csv('https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/country_codes.csv', dtype={'country-code': str})
+df = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/country.csv')
+df['totaltrials'] = df.groupby(['Study population', 'year', 'phase'])['Study population'].transform('count')
+pharma = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/pharma_country.csv', encoding='latin1')
+pharma2=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications.csv')
 
-    merged_df = pd.merge(df, country_df[['ID', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
-    merged_df = merged_df.dropna()
-    merged_df['year'] = merged_df['year'].astype(int)
-    merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
+merged_df = pd.merge(df, country_df[['ID', 'country-code']], left_on='Study population', right_on='Country', how='left').dropna()
+merged_df = merged_df.dropna()
+merged_df['year'] = merged_df['year'].astype(int)
+merged_pharma = pd.merge(pharma, country_df[['Country', 'country-code']], left_on='Study population', right_on='Country', how='left')
 
-    race_df_ol=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_ol.csv')
-    race_df_rct=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_rct.csv')
-    combined_race_df = pd.concat([race_df_ol, race_df_rct], axis=0)
-   
-
-df = load_data()
 
 
 st.set_page_config(layout="wide")
@@ -45,6 +38,9 @@ df_filtered_by_phase = merged_df[(merged_df['year'].between(selected_year[0], se
 pharma2_filtered_by_phase= pharma2[(pharma2['year'].between(selected_year[0], selected_year[1])) & (pharma2['phase'].isin(selected_phases))]
 
 
+race_df_ol=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_ol.csv')
+race_df_rct=pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/age_rct.csv')
+combined_race_df = pd.concat([race_df_ol, race_df_rct], axis=0)
 
 
 if selected_theme == "Country":
@@ -247,7 +243,6 @@ elif selected_theme == "Demographics":
 
      df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left')
 
-
      num_years= df_race['year'].nunique()
 
      if num_years > 10:
@@ -272,16 +267,31 @@ elif selected_theme == "Demographics":
          tooltip=['source', 'Year_Range','Race', 'participants', 'percentage'],
      )
 
-    # pie = base.mark_arc(outerRadius=80)
+     pie = base.mark_arc(outerRadius=80)
 
-    # Define text labels
+     # Define text labels
 
-    #text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
+     #text = base.mark_text(radius=100, size=10).encode(text=alt.Text('Group:N') )
+
+     plot2 = (pie)
+
+     plot2
+
+     chart = alt.layer(plot2).properties(
+     width=90,
+     height=90,
+     data=df_dem
+     ).facet(
+         column='Year_Range:N',
+         row = 'Group:N',
+         title="Sample Representation of Pie Charts Over Time by Group"
+         )
 
 
-    #plot2 = (pie)
 
-    #plot2
+
+# Display the chart
+chart.display()
 
 
 
