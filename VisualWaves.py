@@ -299,12 +299,12 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
-     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range'])['participants'].transform(
+     df_race['Proportion'] = (df_race.groupby(['source','Year_Range'])['participants'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      
 
     
-     df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
+     df_filtered = df_race[df_race['Proportion'].notna()]
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
     
      for source in df_filtered['source'].unique():
@@ -313,9 +313,9 @@ elif selected_theme == "Demographics":
              continue
           pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
-             Prop='NormalizedValueRace',
+             Prop='Proportion',
              ).encode(
-              theta=alt.Theta(f"Prop:Q", stack=True),
+              theta=alt.Theta(f"Proportion:Q", stack=True),
               color=alt.Color("Race:N"),
               tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
              ).properties(
