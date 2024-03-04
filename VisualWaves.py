@@ -348,7 +348,7 @@ elif selected_theme == "Demographics":
          ).transform_filter(race_source_selection).properties(width=100,
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
-     chart2= alt.vconcat(final_chart,plot3)    
+     chart2= alt.vconcat(plot3,final_chart)    
      st.altair_chart(chart2, use_container_width=True )
 
 
