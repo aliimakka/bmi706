@@ -307,16 +307,16 @@ elif selected_theme == "Demographics":
          
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
          # Skip if there's no data after filtering
-         if df_source.empty:
+         if df_source.empty: 
             continue
          pie = alt.Chart(df_source).mark_arc(outerRadius=80).transform_aggregate(
-         groupby=['source', 'Year_Range', 'Race'],
-         total='sum(NormalizedValueRace)',
-         participants = 'sum(participants_race)',
+            groupby=['source', 'Year_Range', 'Race'],
+            total='sum(NormalizedValueRace)',
+            participants = 'sum(participants_race)',
             ).encode(
              theta=alt.Theta(f"total:Q", stack=True),
              color=alt.Color("Race:N", legend=None),
-         tooltip=['source', 'Year_Range', 'Race', 'participants:Q']
+         tooltip=['source', 'Year_Range', 'Race',]
          ).properties(
              width=60,
              height=60
