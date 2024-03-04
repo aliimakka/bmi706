@@ -299,9 +299,10 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
-             df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(
+     df_race['NormalizedValueRace'] = (df_race.groupby(['Year_Range', 'source','Race', ])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
+
      for source in df_filtered['source'].unique():
          
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
