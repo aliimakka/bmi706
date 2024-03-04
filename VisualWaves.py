@@ -334,7 +334,7 @@ elif selected_theme == "Demographics":
              total='sum(participants)',
              proportion='mean(Proportion)'
              ).encode(
-              theta=alt.Theta(f"proportion:Q", stack=True, sort='descending'),
+              theta=alt.Theta(f"proportion:Q", stack=True),
               color=alt.Color("Race:N",scale=alt.Scale(scheme='accent'),  sort=['White', 'Black', 'Asian', 'Asian_Pacific Islander', 'other']),
               tooltip=['source', 'Year_Range','Race', 'total:Q'],
              ).transform_filter(source_selection_multi).properties(
