@@ -275,7 +275,7 @@ elif selected_theme == "Demographics":
 
 
      
-     st.subheader('Race breakdown by funding source over the years')
+     st.subheader('Race breakdown by funding institution over the years')
 
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
@@ -354,7 +354,7 @@ elif selected_theme == "Demographics":
           ).transform_filter(source_selection_multi).properties(
               width=400,
               height=400,
-                title=f'Race composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
+                title=f'Race composition in trials sponsored by selected funding institution from {selected_year[0]} to {selected_year[1]}'
            )
 
      
@@ -369,7 +369,7 @@ elif selected_theme == "Demographics":
          ).transform_filter(source_selection_multi).properties(
               width=400,
               height=400,
-              title=f'Sex composition in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
+              title=f'Sex composition in trials sponsored by selected funding institution from {selected_year[0]} to {selected_year[1]}'
            )
      
      plot_dem = (plot3 | plot_gender ).resolve_scale(color='independent', shape='independent')
