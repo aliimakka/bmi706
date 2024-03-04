@@ -311,7 +311,7 @@ elif selected_theme == "Demographics":
           df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
              continue
-          pie = alt.Chart(df_filtered).mark_arc(outerRadius=40).transform_aggregate(
+          pie = alt.Chart(df_source).mark_arc(outerRadius=40).transform_aggregate(
              groupby=['source', 'Year_Range', 'Race'],
              total='sum(participants)',
              proportion='mean(Proportion)'
@@ -323,7 +323,7 @@ elif selected_theme == "Demographics":
               width=10,
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
-              title=f"{source}").add_selection(race_source_selection)
+              title=f"{source}")#.add_selection(race_source_selection)
           charts.append(pie)
       
 
@@ -335,7 +335,8 @@ elif selected_theme == "Demographics":
           y='sum(participants_race):Q',
           color=alt.Color('Race:N', sort=alt.EncodingSortField('sum(participants)', order='descending')),
           tooltip=['source', 'Race:N', 'year', 'sum(participants)'],
-          ).add_selection(race_source_selection).transform_filter(race_source_selection).configure_legend(
+          #).add_selection(race_source_selection
+                          ).transform_filter(race_source_selection).configure_legend(
                orient='right',
                padding=00,
                titleLimit=0,
