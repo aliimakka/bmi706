@@ -224,13 +224,11 @@ elif selected_theme == "Funding":
      st.pyplot(fig)
 
 
-
      # New multi-select sidebar option for seizure types
      selected_seizure_types = st.sidebar.multiselect(
-    'Select Seizure Types',
-    options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
-    default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
-)
+        'Select Seizure Types',
+      options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
+      default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'])
 
      # Filter data based on selected seizure types
      filtered_data_for_waterfall = data[data['indication_gen'].isin(selected_seizure_types)]
@@ -241,7 +239,8 @@ elif selected_theme == "Funding":
      # Separate the top 5 sponsors and group the rest as 'Other'
      top_sponsors = sponsor_counts.head(5)
      other_count = sponsor_counts[5:].sum()
-     final_counts = top_sponsors.append(pd.Series({'Other': other_count}))
+     final_counts = pd.concat([top_sponsors, pd.Series({'Other': other_count})])
+
 
      # Preparing data for the waterfall plot
      increments = final_counts.values
