@@ -319,14 +319,13 @@ elif selected_theme == "Demographics":
              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
          ).properties(
              width=10,
-             height=10).add_selection(
-          race_source_selection
-         ).facet(
+             height=10).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
          charts.append(pie)
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
+     final_chart = alt.vconcat(*charts).resolve_scale(x='independent').add_selection(
+          race_source_selection)
      st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
