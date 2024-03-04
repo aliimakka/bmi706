@@ -318,7 +318,7 @@ elif selected_theme == "Demographics":
             participants = 'sum(participants_race)',
             ).encode(
              theta=alt.Theta(f"total:Q", stack=True),
-             color=alt.Color("Race:N", legend=None, scale=alt.Scale(scheme='viridis', type="nominal")),
+             color=alt.Color("Race:N", legend=None, scale=alt.Scale(scheme='pastel')),
              tooltip=['source', 'Year_Range','Race', 'participants:Q'],
          ).properties(
              width=10,
