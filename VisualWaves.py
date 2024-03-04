@@ -341,7 +341,7 @@ elif selected_theme == "Demographics":
      data=df_filtered
      ).facet(
          row = 'source:N',
-         column=
+         column='Year_Range:N',
          title="Race Breakdown Over Time by Group"
          )
      st.altair_chart(chart, use_container_width=True)
