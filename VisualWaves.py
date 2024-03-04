@@ -272,8 +272,7 @@ elif selected_theme == "Funding":
 
 elif selected_theme == "Demographics":
      
-     st.subheader('Demographics')
-
+     st.subheader('Race breakdown by funding source over the years')
 
      df_race = pd.merge(df_filtered_by_phase[["ID", "year", 'source']], combined_race_df, on='ID', how='left').melt( 
      id_vars=["ID", "year",'source',],
@@ -284,8 +283,6 @@ elif selected_theme == "Demographics":
      id_vars=["ID", "year", 'phase','source',],
      var_name="Gender",
      value_name="participants_gender",).drop_duplicates()
-
-     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source',], how='left').dropna()
      charts = []
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
@@ -304,6 +301,8 @@ elif selected_theme == "Demographics":
     
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
+     race_source_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
+
      for source in df_filtered['source'].unique():
          
          df_source = df_filtered[df_filtered['source'] == source].dropna(subset=['Year_Range'])
@@ -320,7 +319,8 @@ elif selected_theme == "Demographics":
              tooltip=['source', 'Year_Range','Race', 'sum(participants):Q'],
          ).properties(
              width=10,
-             height=10
+             height=10).add_selection(
+          race_source_selection
          ).facet(
              column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
              title=f"{source}")
@@ -328,6 +328,23 @@ elif selected_theme == "Demographics":
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent')
      st.altair_chart(final_chart, use_container_width=True )
+
+     plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
+          x='year:N',
+          y='sum(participants_race)',
+          color=alt.Color('Race', sort=alt.EncodingSortField('sum(participants_race)', order='descending')),
+          tooltip=['source', 'race', 'year', 'sum(participants_race)'],
+          ).configure_legend(
+               orient='right',
+               padding=00,
+               titleLimit=0,
+               labelLimit=0
+               ).properties(
+                    title=f'Demographic representation in trials sponsored by {source} from {selected_year[0]} to {selected_year[1]}')
+     st.altair_chart(plot3, use_container_width=True )
+
+
+
 
 
 
