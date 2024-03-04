@@ -283,7 +283,7 @@ elif selected_theme == "Demographics":
      var_name="Gender",
      value_name="participants_gender",).drop_duplicates()
 
-     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left').dropna()
+     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source',], how='left').dropna()
 
      st.write(df_race.head())
      st.write(df_gender.head())
