@@ -299,8 +299,9 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
-     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range','Race'])['participants_race'].transform(
+     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range'])['participants_race'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
+    
      df_filtered = df_race[df_race['NormalizedValueRace'].notna()]
 
      for source in df_filtered['source'].unique():
@@ -335,6 +336,7 @@ elif selected_theme == "Demographics":
      df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
      st.write(df_filtered[df_filtered['source'] == "UCB Pharma"])
+
 
      base = alt.Chart(df_filtered
                      ).transform_aggregate(
