@@ -288,11 +288,11 @@ elif selected_theme == "Demographics":
 
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
-     
+     st.write(unique_years_per_source)
      #df_filtered = df_race_non_zero.dropna(subset=['source', 'Year_Range'])
 
      if num_years > 10:
-             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=16)
+             year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
              df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
              df_race['Year_Range'] = df_race['Year_Range'].apply(lambda x: f"{int(x.left)}-{int(x.right)}")
      else:
