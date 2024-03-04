@@ -288,7 +288,7 @@ elif selected_theme == "Demographics":
      unique_years_per_source = df_race.groupby('source')['year'].nunique()
      num_years = unique_years_per_source.max()
 
-     race_source_selection = alt.selection_single(fields=['source'], on='click',clear='dblclick')
+    
      if num_years > 11:
              year_bins = np.linspace(df_race['year'].min(), df_race['year'].max(), num=11)
              df_race['Year_Range'] = pd.cut(df_race['year'], bins=year_bins, include_lowest=True)
@@ -305,7 +305,7 @@ elif selected_theme == "Demographics":
 
 
      #df_filtered = df_filtered.dropna(subset=['source', 'Year_Range'])
-    
+     race_source_selection = alt.selection_single(fields=['source'], on='click',clear='dblclick')
      for source in df_filtered['source'].unique():
           df_source = df_filtered[df_filtered['source'] == source]
           if df_source.empty: 
@@ -326,7 +326,7 @@ elif selected_theme == "Demographics":
           charts.append(pie.add_selection(race_source_selection))
       
 
-     final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
+     final_chart = alt.vconcat(*charts).add_selection(race_source_selection).resolve_scale(x='independent', y='independent')
      st.altair_chart(final_chart, use_container_width=True )
 
      plot3 = alt.Chart(df_filtered).mark_line(point=True).encode(
