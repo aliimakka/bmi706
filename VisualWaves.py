@@ -323,7 +323,7 @@ elif selected_theme == "Demographics":
               height=10).facet(
               column=alt.Column('Year_Range:N', header=alt.Header(title=None, labelColor='white')),
               title=f"{source}")
-          charts.append(pie)
+          charts.append(pie.add_selection(race_source_selection))
       
 
      final_chart = alt.vconcat(*charts).resolve_scale(x='independent', y='independent')
