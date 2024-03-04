@@ -358,7 +358,7 @@ elif selected_theme == "Demographics":
                 title=f'Demographics in trials sponsored by selected funding source from {selected_year[0]} to {selected_year[1]}'
            )
      chart2= alt.vconcat(plotlin,final_chart,plot3).configure_legend(
-          orient='top',
+            orient='right',
             padding=00,
             titleLimit=0,
             labelLimit=0
