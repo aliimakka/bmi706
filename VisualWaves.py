@@ -299,7 +299,7 @@ elif selected_theme == "Demographics":
      else:
              df_race['Year_Range'] = df_race['year'].astype(str)
 
-     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range'])['participants_race'].transform(
+     df_race['NormalizedValueRace'] = (df_race.groupby(['source','Year_Range'])['participants'].transform(
                   lambda x: (x / x.sum())*100 if x.sum() != 0 else np.nan))
      
 
