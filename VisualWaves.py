@@ -283,7 +283,7 @@ elif selected_theme == "Demographics":
      var_name="Gender",
      value_name="participants_gender",)
 
-     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left')
+     df_dem = pd.merge(df_race, df_gender, on=['ID', "year", 'source', 'phase',], how='left').dropna()
 
      num_years= df_race['year'].nunique()
 
