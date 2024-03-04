@@ -225,19 +225,14 @@ elif selected_theme == "Funding":
 
 
 
-
-    ####################
-
-
-
-    # New multi-select sidebar option for seizure types
+     # New multi-select sidebar option for seizure types
      selected_seizure_types = st.sidebar.multiselect(
-        'Select Seizure Types',
-        options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
-        default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
-     )
+    'Select Seizure Types',
+    options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
+    default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status']
+)
 
-     # Filter data based on selected seizure types (if necessary for the waterfall plot)
+     # Filter data based on selected seizure types
      filtered_data_for_waterfall = data[data['indication_gen'].isin(selected_seizure_types)]
 
      # Aggregate data by 'source' for the number of trials
@@ -248,21 +243,28 @@ elif selected_theme == "Funding":
      other_count = sponsor_counts[5:].sum()
      final_counts = top_sponsors.append(pd.Series({'Other': other_count}))
 
-     # Waterfall plot
-     fig2 = go.Figure(go.Waterfall(
-        name="20", orientation="v",
-        measure=["relative"] * len(final_counts),
-        x=final_counts.index,
-        textposition="outside",
-        text=final_counts.values,
-        y=final_counts.values,
-        connector={"line":{"color":"rgb(63, 63, 63)"}},
-     ))
+     # Preparing data for the waterfall plot
+     increments = final_counts.values
+     starts = np.zeros(len(increments))
 
-     fig2.update_layout(title="Clinical Trials by Sponsor")
+     # Calculating the start point for each bar
+     for i in range(1, len(increments)):
+        starts[i] = starts[i-1] + increments[i-1]
+
+     # Plotting the waterfall plot
+     fig, ax = plt.subplots()
+     bars = plt.bar(final_counts.index, increments, bottom=starts)
+
+     # Adding labels and title
+     plt.title('Clinical Trials by Sponsor')
+     plt.xlabel('Sponsor')
+     plt.ylabel('Number of Trials')
+     plt.xticks(rotation=45)
 
      # Display the plot in Streamlit
-     st.plotly_chart(fig2)
+     st.pyplot(fig)
+
+      
 
 
     
