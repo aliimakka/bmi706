@@ -321,7 +321,6 @@ elif selected_theme == "Demographics":
      height=60,
      data=df_filtered
      ).facet(
-         column='Year_Range:N',
          row = 'source:N',
          title="Race Breakdown Over Time by Group"
          )
