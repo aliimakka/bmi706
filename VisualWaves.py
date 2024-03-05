@@ -180,6 +180,9 @@ elif selected_theme == "Funding and Indications":
         tooltip=['source', 'count']
      ).add_selection(
         pharma_selection
+     ).properties(
+         width=600,
+         height=500
      )
 
      company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
@@ -211,13 +214,13 @@ elif selected_theme == "Funding and Indications":
 
      # Plotting
      fig, ax = plt.subplots()
-     aggregated_data.plot(kind='bar', figsize=(8, 5), ax=ax)
+     aggregated_data.plot(kind='bar', figsize=(6, 4), ax=ax)
      plt.title('Comparison of Seizure Types Across Age Groups')
      plt.xlabel('Age Group')
      plt.ylabel('Count')
      plt.xticks(rotation=45)
      plt.legend(title='Seizure Type')
-     ax.set_facecolor('none')
+     
      plt.tight_layout()
 
      # Display the plot in Streamlit
@@ -261,7 +264,11 @@ elif selected_theme == "Funding and Indications":
      connector={"line":{"color":"rgb(63, 63, 63)"}},
         ))
 
-     fig2.update_layout(title="Clinical Trials by Sponsor")
+     fig2.update_layout(
+         title="Clinical Trials by Sponsor",
+         width=600,
+         height=500,
+     )
 
      # Display the plot in Streamlit
      st.plotly_chart(fig2)
