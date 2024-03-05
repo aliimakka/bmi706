@@ -209,11 +209,10 @@ elif selected_theme == "Funding and Indications":
      aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
 
     # New multi-select sidebar option for seizure types
-     selected_seizure_types = st.selectbox(
-         'Select Seizure Type',
-        options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
-        index=0,  
-        format_func=lambda x: x)  
+     selected_seizure_types = st.sidebar.multiselect(
+        'Select Seizure Types',
+          options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
+          default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'])
 
      # Filter data based on selected seizure types
      filtered_data_for_waterfall = data[data['indication_gen'].isin(selected_seizure_types)]
