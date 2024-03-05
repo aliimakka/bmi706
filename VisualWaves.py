@@ -266,7 +266,7 @@ elif selected_theme == "Funding and Indications":
 
      fig2.update_layout(
          title="Clinical Trials by Sponsor",
-         width=600,
+         width=800,
          height=500,
      )
 
