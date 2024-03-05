@@ -212,7 +212,7 @@ elif selected_theme == "Funding and Indications":
      selected_seizure_types = st.selectbox(
          'Select Seizure Type',
         options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
-        index=[0, 1, 2],  
+        index=0,  
         format_func=lambda x: x)  
 
      # Filter data based on selected seizure types
