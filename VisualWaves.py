@@ -26,7 +26,7 @@ st.set_page_config(layout="wide")
 st.title('Clinical Trials Explorer')
 
 # Selector for choosing between different themes
-selected_theme = st.sidebar.selectbox("Select Dashboard", ["Country", "Funding", "Demographics"])
+selected_theme = st.sidebar.selectbox("Select Dashboard", ["Country", "Funding and Indications", "Demographics"])
 
 # Common selectors for year and phase
 selected_year = st.sidebar.slider('Select Year', min_value=min(merged_df['year']), max_value=max(merged_df['year']), value=(min(merged_df['year']), max(merged_df['year'])))
@@ -162,7 +162,7 @@ if selected_theme == "Country":
 
 
  
-elif selected_theme == "Funding":
+elif selected_theme == "Funding and Indications":
     # Display charts related to funding theme
      st.subheader('Funding')
     
