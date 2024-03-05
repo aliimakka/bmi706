@@ -196,8 +196,7 @@ elif selected_theme == "Funding and Indications":
      # Display the combined chart
      combined_chart = pie_chart | line_chart
      st.altair_chart(combined_chart, use_container_width=True)
-     # Add additional charts or data related to funding theme here
-     st.title('Seizure Type Comparison Across Age Groups')
+
 
      # Load the dataset from the specified path
      data = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications_age_groups.csv')
@@ -225,7 +224,7 @@ elif selected_theme == "Funding and Indications":
      other_count = sponsor_counts[5:].sum()
      final_counts = pd.concat([top_sponsors, pd.Series({'Other': other_count})])
 
-
+    
      # Preparing data for the waterfall plot
      increments = final_counts.values
      starts = np.zeros(len(increments))
@@ -249,6 +248,7 @@ elif selected_theme == "Funding and Indications":
      # Display the plot in Streamlit
      st.plotly_chart(fig2, use_container_width=True)
 
+     st.title('Seizure Type Comparison Across Age Groups')
      # Plotting
      fig, ax = plt.subplots()
      aggregated_data.plot(kind='bar', figsize=(5, 3), ax=ax)
