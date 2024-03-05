@@ -211,7 +211,7 @@ elif selected_theme == "Funding and Indications":
 
      # Plotting
      fig, ax = plt.subplots()
-     aggregated_data.plot(kind='bar', figsize=(10, 7), ax=ax)
+     aggregated_data.plot(kind='bar', figsize=(8, 5),  facecolor='black',ax=ax)
      plt.title('Comparison of Seizure Types Across Age Groups')
      plt.xlabel('Age Group')
      plt.ylabel('Count')
