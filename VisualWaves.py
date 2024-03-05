@@ -208,22 +208,8 @@ elif selected_theme == "Funding and Indications":
      # Aggregate the data by 'Age Group' and 'indication_gen'
      aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
 
-     # Plotting
-     fig, ax = plt.subplots()
-     aggregated_data.plot(kind='bar', figsize=(5, 3), ax=ax)
-     plt.xlabel('Age Group')
-     plt.ylabel('Count')
-     plt.xticks(rotation=45)
-     plt.legend(title='Seizure Type')
-     
-     plt.tight_layout()
-
-     # Display the plot in Streamlit
-     st.pyplot(fig)
-
-
-     # New multi-select sidebar option for seizure types
-     selected_seizure_types = st.sidebar.multiselect(
+    # New multi-select sidebar option for seizure types
+     selected_seizure_types = st.selectbox(
         'Select Seizure Types',
       options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
       default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'])
@@ -263,9 +249,18 @@ elif selected_theme == "Funding and Indications":
      # Display the plot in Streamlit
      st.plotly_chart(fig2, use_container_width=True)
 
-      
+     # Plotting
+     fig, ax = plt.subplots()
+     aggregated_data.plot(kind='bar', figsize=(5, 3), ax=ax)
+     plt.xlabel('Age Group')
+     plt.ylabel('Count')
+     plt.xticks(rotation=45)
+     plt.legend(title='Seizure Type')
+     
+     plt.tight_layout()
 
-
+     # Display the plot in Streamlit
+     st.pyplot(fig)
 
 
 elif selected_theme == "Demographics":
