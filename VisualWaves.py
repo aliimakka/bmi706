@@ -214,8 +214,7 @@ elif selected_theme == "Funding and Indications":
 
      # Plotting
      fig, ax = plt.subplots()
-     aggregated_data.plot(kind='bar', figsize=(6, 4), ax=ax)
-     plt.title('Comparison of Seizure Types Across Age Groups')
+     aggregated_data.plot(kind='bar', figsize=(5, 3), ax=ax)
      plt.xlabel('Age Group')
      plt.ylabel('Count')
      plt.xticks(rotation=45)
@@ -267,7 +266,7 @@ elif selected_theme == "Funding and Indications":
      fig2.update_layout(title="Clinical Trials by Sponsor")
 
      # Display the plot in Streamlit
-     st.plotly_chart(fig2, use_container_width=True, width=600, height=600)
+     st.plotly_chart(fig2, use_container_width=True, width=800, height=600)
 
       
 
