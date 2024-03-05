@@ -253,6 +253,7 @@ elif selected_theme == "Funding and Indications":
         starts[i] = starts[i-1] + increments[i-1]
 
      # Waterfall plot
+     st.write("Clinical Trials by Sponsor")
      fig2 = go.Figure(go.Waterfall(
      name="20", orientation="v",
      measure=["relative"] * len(final_counts),
@@ -263,10 +264,8 @@ elif selected_theme == "Funding and Indications":
      connector={"line":{"color":"rgb(63, 63, 63)"}},
         ))
 
-     fig2.update_layout(title="Clinical Trials by Sponsor")
-
      # Display the plot in Streamlit
-     st.plotly_chart(fig2, use_container_width=True, width=800, height=600)
+     st.plotly_chart(fig2, use_container_width=True)
 
       
 
