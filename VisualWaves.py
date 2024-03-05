@@ -163,11 +163,7 @@ if selected_theme == "Country":
 
  
 elif selected_theme == "Funding and Indications":
-    # Display charts related to funding theme
-     st.subheader('Funding')
     
-     # Add your funding-related charts here
-     st.write("Charts related to Funding theme")
         #pie_chart for funding source
      st.subheader(f'Total trials over years by top 10 funding sources')
      pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
@@ -253,7 +249,7 @@ elif selected_theme == "Funding and Indications":
         starts[i] = starts[i-1] + increments[i-1]
 
      # Waterfall plot
-     st.write("Clinical Trials by Sponsor")
+     st.subheader("Clinical Trials by Sponsor")
      fig2 = go.Figure(go.Waterfall(
      name="20", orientation="v",
      measure=["relative"] * len(final_counts),
