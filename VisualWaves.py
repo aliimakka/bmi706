@@ -264,14 +264,10 @@ elif selected_theme == "Funding and Indications":
      connector={"line":{"color":"rgb(63, 63, 63)"}},
         ))
 
-     fig2.update_layout(
-         title="Clinical Trials by Sponsor",
-         width=800,
-         height=500,
-     )
+     fig2.update_layout(title="Clinical Trials by Sponsor")
 
      # Display the plot in Streamlit
-     st.plotly_chart(fig2)
+     st.plotly_chart(fig2, use_container_width=True, width=800, height=500)
 
       
 
