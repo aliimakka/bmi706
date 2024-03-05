@@ -313,9 +313,7 @@ elif selected_theme == "Demographics":
              ).encode(
                    x=alt.X('source:N', axis=None),
                    y='total:Q',
-                   color=alt.condition(source_selection_multi, 
-                                       alt.Color('source:N',scale=alt.Scale(scheme='spectral', reverse=False)),
-                                       alt.Value('#aaa')),
+                   color=alt.Color('source:N',scale=alt.Scale(scheme='spectral', reverse=False)),
                    column='Year_Range:O',
                    tooltip=['source','Year_Range', 'total:Q'],
                    ).add_selection(source_selection_multi).properties(
