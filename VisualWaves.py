@@ -210,9 +210,10 @@ elif selected_theme == "Funding and Indications":
 
     # New multi-select sidebar option for seizure types
      selected_seizure_types = st.selectbox(
-        'Select Seizure Types',
-      options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
-      default=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'])
+         'Select Seizure Type',
+        options=['Focal/Partial', 'Generalized', 'Epilepsy/Seizures/Status'],
+        index=[0, 1, 2],  
+        format_func=lambda x: x)  
 
      # Filter data based on selected seizure types
      filtered_data_for_waterfall = data[data['indication_gen'].isin(selected_seizure_types)]
