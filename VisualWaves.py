@@ -26,7 +26,7 @@ st.set_page_config(layout="wide")
 st.title('Clinical Trials Explorer')
 
 # Selector for choosing between different themes
-selected_theme = st.sidebar.selectbox("Select Dashboard", ["Country", "Funding", "Demographics"])
+selected_theme = st.sidebar.selectbox("Select Dashboard", ["Country", "Funding and Indications", "Demographics"])
 
 # Common selectors for year and phase
 selected_year = st.sidebar.slider('Select Year', min_value=min(merged_df['year']), max_value=max(merged_df['year']), value=(min(merged_df['year']), max(merged_df['year'])))
@@ -162,12 +162,7 @@ if selected_theme == "Country":
 
 
  
-elif selected_theme == "Funding":
-    # Display charts related to funding theme
-     st.subheader('Funding')
-    
-     # Add your funding-related charts here
-     st.write("Charts related to Funding theme")
+elif selected_theme == "Funding and Indications":
         #pie_chart for funding source
      st.subheader(f'Total trials over years by top 10 funding sources')
      pharma_selection = alt.selection_single(fields=['source'],bind='legend',on='click',empty="all",clear='dblclick')
@@ -180,6 +175,9 @@ elif selected_theme == "Funding":
         tooltip=['source', 'count']
      ).add_selection(
         pharma_selection
+     ).properties(
+         height=600,
+         width=500
      )
 
      company_summary = pharma2_filtered_by_phase.groupby(['source', 'year']).size().reset_index(name='count')
@@ -208,20 +206,6 @@ elif selected_theme == "Funding":
 
      # Aggregate the data by 'Age Group' and 'indication_gen'
      aggregated_data = filtered_data.groupby(['Age Group', 'indication_gen']).size().unstack(fill_value=0)
-
-     # Plotting
-     fig, ax = plt.subplots()
-     aggregated_data.plot(kind='bar', figsize=(10, 7), ax=ax)
-     plt.title('Comparison of Seizure Types Across Age Groups')
-     plt.xlabel('Age Group')
-     plt.ylabel('Count')
-     plt.xticks(rotation=45)
-     plt.legend(title='Seizure Type')
-     plt.tight_layout()
-
-     # Display the plot in Streamlit
-     st.pyplot(fig)
-
 
      # New multi-select sidebar option for seizure types
      selected_seizure_types = st.sidebar.multiselect(
@@ -264,6 +248,21 @@ elif selected_theme == "Funding":
 
      # Display the plot in Streamlit
      st.plotly_chart(fig2)
+
+    # Plotting
+     st.subheader(f'Comparison of Seizure Types Across Age Groups')
+     fig, ax = plt.subplots()
+     aggregated_data.plot(kind='bar', figsize=(5, 3), ax=ax)
+     plt.xlabel('Age Group')
+     plt.ylabel('Count')
+     plt.xticks(rotation=45)
+     plt.legend(title='Seizure Type')
+     plt.tight_layout()
+
+     # Display the plot in Streamlit
+     st.pyplot(fig)
+
+
 
       
 
