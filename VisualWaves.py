@@ -195,8 +195,9 @@ elif selected_theme == "Funding and Indications":
      # Display the combined chart
      combined_chart = pie_chart | line_chart
      st.altair_chart(combined_chart, use_container_width=True)
+    
      # Add additional charts or data related to funding theme here
-     st.title('Seizure Type Comparison Across Age Groups')
+     st.title('Seizure type by funding sources')
 
      # Load the dataset from the specified path
      data = pd.read_csv('https://raw.githubusercontent.com/aliimakka/bmi706/main/minus_OLE_with_generalized_indications_age_groups.csv')
